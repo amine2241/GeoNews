@@ -8,4 +8,36 @@
 .leaflet-container {
   height: 100vh;
 }
+.search {
+  font-family: inherit;
+  width: 25%;
+  border: 0;
+  border-bottom: 2px solid black;
+  outline: 0;
+  font-size: 1rem;
+  color: black;
+  padding: 7px 0;
+  background: transparent;
+  transition: border-color 0.2s;
 
+  &::placeholder {
+    color: black;
+  }
+}
+.loop {
+  position: absolute;
+  right: 1115px;
+  top: 18px;
+}
+
+.datepicker {
+  font-family: inherit;
+  width: 20%;
+  border: 0;
+  outline: 0;
+  font-size: 1rem;
+  color: black;
+  padding: 7px 0;
+  background: transparent;
+  transition: border-color 0.2s;
+}
