@@ -7,9 +7,12 @@ import Navbar from "./layout/Navbar";
 import Map from "./layout/Map";
 function App() {
   return (
-      <div className="A"><Navbar/>
-      <Map/>
-      </div>
+  <div>
+   <h1 class="text-9xl font-bold underline">
+    Hello world!
+  </h1>
+  </div>
+ 
 
   );
 }
