@@ -1,43 +1,31 @@
-
-
+/*
+  Based on TailwindCSS recommendations,
+  consider using classes instead of the `@apply` directive
+  @see https://tailwindcss.com/docs/reusing-styles#avoiding-premature-abstraction
+*/
 #root {
-  height: 100vh;
+  @apply h-screen;
 }
 
 /* height of the container */
 .leaflet-container {
-  height: 100vh;
+  @apply h-screen;
 }
 .search {
+  @apply w-3/12 text-base text-[black] transition-[border-color] duration-[0.2s] px-0 py-[7px] border-b-2 border-b-[black] border-0 border-solid;
   font-family: inherit;
-  width: 25%;
-  border: 0;
-  border-bottom: 2px solid black;
   outline: 0;
-  font-size: 1rem;
-  color: black;
-  padding: 7px 0;
   background: transparent;
-  transition: border-color 0.2s;
-
-  &::placeholder {
-    color: black;
-  }
+}
+.search::placeholder {
+  @apply text-[black];
 }
 .loop {
-  position: absolute;
-  right: 1115px;
-  top: 18px;
+  @apply absolute right-[1115px] top-[18px];
 }
-
 .datepicker {
+  @apply w-1/5 text-base text-[black] transition-[border-color] duration-[0.2s] px-0 py-[7px] border-0;
   font-family: inherit;
-  width: 20%;
-  border: 0;
   outline: 0;
-  font-size: 1rem;
-  color: black;
-  padding: 7px 0;
   background: transparent;
-  transition: border-color 0.2s;
 }

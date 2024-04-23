@@ -17,7 +17,7 @@ export default function Navbar(){
        }
     
     return(
-<MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false} maxZoom={11} >
+<MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false} maxZoom={11} className="h-screen" >
   <TileLayer
     attribution= '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
     url='https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png'
