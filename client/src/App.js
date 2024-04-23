@@ -5,10 +5,12 @@ import "leaflet/dist/leaflet.css";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "./layout/Navbar";
 import Map from "./layout/Map";
+import Navbars from './layout/Navbars';
 function App() {
   return (
-    <div className="h-screen">
-    <Map/>
+    <div>
+      <Navbars></Navbars>
+      <Map></Map>
     </div>
 
  
