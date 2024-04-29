@@ -1,17 +1,20 @@
-import React from 'react';
+import  React from 'react';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import "leaflet/dist/leaflet.css";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import Navbar from "./layout/Navbar";
-import Map from "./layout/Map";
-import Navbars from './layout/Navbars';
+import SignUp from './pages/SignUp';
+import Home from './pages/Home';
+
 function App() {
   return (
-    <div>
-      <Navbars></Navbars>
-      <Map></Map>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home/>}/>
+          <Route path="/SignUp" element={<SignUp/>} />
+      </Routes>
+    </BrowserRouter>
 
  
 
