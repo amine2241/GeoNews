@@ -1,7 +1,25 @@
-import React from 'react'
+import {React,useState} from 'react'
 import Sign from "../images/signup_image.png"
 
 const SignUpForm = () => {
+const [formData, setFormData] = useState({
+  FirstName: '',
+  LastName : '',
+  Email : '',
+  Password:'', 
+  ConfPassword: ''
+});
+const handleChange = (e) => {
+  const { name, value } = e.target;
+  setFormData(prevState => ({
+    ...prevState,
+    [name]: value,
+  }));
+  const handleSubmit = (event) => {
+    event.preventDefault();
+  };
+
+};
   return (
     <div className="flex justify-center items-center w-full  min-h-screen bg-white px-5 py-5">
     <div className="xl:max-w-7xl bg-white drop-shadow-xl border border-black/20 w-full rounded-md flex justify-between items-stretch px-5 xl:px-5 py-5">
@@ -22,29 +40,45 @@ const SignUpForm = () => {
             <div className="flex flex-col sm:flex-row gap-3">
               <input
                 type="text"
+                name = "FirstName"
                 placeholder="Enter Your First Name"
                 className="input input-bordered border-[#00BFA6] w-full max-w-xs text-black placeholder:text-black/70"
+                value ={formData.FirstName}
+                onChange = {handleChange} 
               />
               <input
                 type="text"
+                name = "LastName"
                 placeholder="Enter Your Last Name"
                 className="input input-bordered border-[#00BFA6] w-full max-w-xs text-black placeholder:text-black/70"
+                value ={formData.LastName}
+                onChange = {handleChange} 
+                
               />
             </div>
             <input
-              type="text"
+              type="email"
+              name = "Email"
               placeholder="Enter Your Email"
               className="input input-bordered border-[#00BFA6] w-full text-black placeholder:text-black/70"
+              value ={formData.Email}
+              onChange = {handleChange} 
             />
             <input
               type="text"
-              placeholder="Enter Your Phone No"
+              name = "Password"
+              placeholder="Enter Your Password"
               className="input input-bordered border-[#00BFA6] w-full text-black placeholder:text-black/70"
+              value ={formData.Password}
+              onChange = {handleChange} 
             />
             <input
               type="Password"
-              placeholder="Enter Your Password"
+              name = "ConfPassword"
+              placeholder="Confirm Your Password"
               className="input input-bordered border-[#00BFA6] w-full text-black placeholder:text-black/70"
+              value ={formData.ConfPassword}
+              onChange = {handleChange} 
             />
             <div className="flex items-center gap-1.5  justify-start pl-2">
               <div className="form-control">
@@ -63,7 +97,9 @@ const SignUpForm = () => {
               </h3>
             </div>
             <div className="flex flex-col md:flex-row gap-2 md:gap-4 justify-center items-center">
-              <button className="btn btn-active btn-primary btn-block max-w-[200px]">
+              <button  type = "submit"
+              onSubmit={handleSubmit} 
+              className="btn btn-active btn-primary btn-block max-w-[200px]">
                 Sign Up
               </button>
               <button className="btn btn-outline btn-primary btn-block max-w-[200px]">
