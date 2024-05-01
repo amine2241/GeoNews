@@ -1,48 +1,54 @@
-import React from "react";
-import lp from "../images/loop.png"
-export default function Navbar(){
-    var curr = new Date();
-    curr.setDate(curr.getDate());
-    var today = curr.toISOString().substring(0,10);
-    return (<form>
-        <nav class="navbar navbar-expand-lg navbar-dark" style={{backgroundColor: "white"}}>
-            <button
-                class="navbar-toggler"
-                type="button"
-                data-toggle="collapse"
-                data-target="#navbar"
-            >
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbar">
-                <a class="navbar-brand mx-auto position-absolute m-lg-4"
-                   style={{color: "black", fontWeight: "bold"}}>GeoNews</a>
+import React from 'react'
+import lp from "../images/loop.png";
+import { Link } from "react-router-dom";
+export default function Navbar() {
+  var curr = new Date();
+  curr.setDate(curr.getDate());
+  var today = curr.toISOString().substring(0,10);
+  return (<form>
+    <div className="navbar navbar-expand-lg navbar-dark bg-base-100">
+      <div className="navbar-start">
+        <Link to='/' className="btn btn-ghost text-xl" style={{color: "black", fontWeight: "bold"}}>GeoNews</Link>
+      </div>
+      <div className="navbar-center">
+        <div className="navbar-center hidden lg:flex ">
+          <ul className=" menu-horizontal px-1 space-x-40">
+            <li>
+              <input type="date" className="datepicker" value={today} max={today}/>
+            </li>
+            <li className="space-x-4">
+              <img alt="Tailwind CSS Navbar component" src={lp} className="loop" width="20" height="20"/>
+              <input type="text" placeholder="Search County/City" className="search"/>
+            </li>
 
-                <div class="navbar-nav mx-auto text-md-center text-left">
+          </ul>
+        </div>
+      </div>
+      <div className="navbar-end">
+        <Link to='/signup' className="btn" style={{color: "#00BFA6"}}>Sign-Up</Link>
+        <Link to='/login' className="btn" style={{color: "#fe4f02"}}>Log-In</Link>
+      </div>
+    </div>
+      </form>
+      /*  FOR LOGGED USERS:----------------------------------------------------------------------------------
 
-                    <img src={lp} className="loop" width="20" height="20"/>
-                    <input type="input" className="search" placeholder="Search County/City"/>
-
-                    <a className="nav-item nav-link"></a><a className="nav-item nav-link"></a><a
-                    className="nav-item nav-link"></a><a className="nav-item nav-link"></a><a
-                    className="nav-item nav-link"></a><a className="nav-item nav-link"></a><a
-                    className="nav-item nav-link"></a><a className="nav-item nav-link"></a><a
-                    className="nav-item nav-link"></a><a className="nav-item nav-link"></a><a
-                    className="nav-item nav-link"></a><a className="nav-item nav-link"></a><a
-                    className="nav-item nav-link"></a><a className="nav-item nav-link"></a><a
-                    className="nav-item nav-link"></a><a className="nav-item nav-link"></a><a
-                    className="nav-item nav-link"></a>
-
-                    <a className="nav-item nav-link"></a>
-                    <input type="date" className="datepicker" value={today} max={today} />
-
-                </div>
-
-                <div class="nav navbar-nav flex-row justify-content-md-center justify-content-start flex-nowrap ">
-                    <a class="nav-item nav-link " style={{color: "black", fontWeight: "bold"}}>Log-in</a>
-                </div>
-
-</div>
-</nav></form>
-    )
+          <div className="dropdown dropdown-end">
+          <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+            <div className="w-10 rounded-full">
+              <img alt="Tailwind CSS Navbar component"
+                   src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"/>
+            </div>
+          </div>
+          <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
+            <li>
+              <a className="justify-between">
+                Profile
+                <span className="badge">New</span>
+              </a>
+            </li>
+            <li><a>Settings</a></li>
+            <li><a>Logout</a></li>
+          </ul>
+        </div>*/
+)
 }

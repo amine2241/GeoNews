@@ -1,11 +1,11 @@
 import React from 'react'
-import Navbars from '../Components/Navbars'
+import Navbar from '../Components/Navbar'
 import Map from '../Components/Map'
 
 const Home = () => {
   return (
     <div>
-         <Navbars></Navbars>
+         <Navbar></Navbar>
       <Map></Map>
     </div>
 

@@ -12,19 +12,18 @@
   @apply h-screen;
 }
 .search {
-  @apply w-3/12 text-base text-[black] transition-[border-color] duration-[0.2s] px-0 py-[7px] border-b-2 border-b-[black] border-0 border-solid;
+  @apply text-base text-[black] transition-[border-color] duration-[0.2s] border-b-2 border-b-[black] border-0 border-solid;
   font-family: inherit;
   outline: 0;
   background: transparent;
 }
 .search::placeholder {
-  @apply text-[black];
+  @apply text-[grey];
 }
 .loop {
-  @apply absolute right-[1115px] top-[18px];
+  @apply absolute right-[710px] top-[15px];
 }
 .datepicker {
-  @apply w-1/5 text-base text-[black] transition-[border-color] duration-[0.2s] px-0 py-[7px] border-0;
   font-family: inherit;
   outline: 0;
   background: transparent;
