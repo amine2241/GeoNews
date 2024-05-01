@@ -3,11 +3,10 @@ import Sign from "../images/signup_image.png"
 
 const SignUpForm = () => {
 const [formData, setFormData] = useState({
-  FirstName: '',
-  LastName : '',
-  Email : '',
-  Password:'', 
-  ConfPassword: ''
+  firstName: '',
+  lastName : '',
+  email : '',
+  password:'',
 });
 const handleChange = (e) => {
   const { name, value } = e.target;
@@ -15,10 +14,23 @@ const handleChange = (e) => {
     ...prevState,
     [name]: value,
   }));
-  const handleSubmit = (event) => {
-    event.preventDefault();
-  };
 
+
+};
+const handleSubmit = (event) => {
+  console.log("hello");
+  fetch("http://localhost:9000/user/registration", {
+    body: JSON.stringify(formData), // Corrected typo here
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then(
+      response => {
+        return response.json(); // Ensure this is inside the then block
+      }
+  )
+  event.preventDefault();
 };
   let color = 'bg-red-500'
   return (
@@ -41,36 +53,36 @@ const handleChange = (e) => {
             <div className="flex flex-col sm:flex-row gap-3">
               <input
                 type="text"
-                name = "FirstName"
+                name = "firstName"
                 placeholder="Enter Your First Name"
                 className="input input-bordered border-[#00BFA6] w-full max-w-xs text-black placeholder:text-black/70"
-                value ={formData.FirstName}
+                value ={formData.firstName}
                 onChange = {handleChange} 
               />
               <input
                 type="text"
-                name = "LastName"
+                name = "lastName"
                 placeholder="Enter Your Last Name"
                 className="input input-bordered border-[#00BFA6] w-full max-w-xs text-black placeholder:text-black/70"
-                value ={formData.LastName}
+                value ={formData.lastName}
                 onChange = {handleChange} 
                 
               />
             </div>
             <input
               type="email"
-              name = "Email"
+              name = "email"
               placeholder="Enter Your Email"
               className="input input-bordered border-[#00BFA6] w-full text-black placeholder:text-black/70"
-              value ={formData.Email}
+              value ={formData.email}
               onChange = {handleChange} 
             />
             <input
               type="text"
-              name = "Password"
+              name = "password"
               placeholder="Enter Your Password"
               className="input input-bordered border-[#00BFA6] w-full text-black placeholder:text-black/70"
-              value ={formData.Password}
+              value ={formData.password}
               onChange = {handleChange} 
             />
             <input
@@ -78,8 +90,6 @@ const handleChange = (e) => {
               name = "ConfPassword"
               placeholder="Confirm Your Password"
               className="input input-bordered border-[#00BFA6] w-full text-black placeholder:text-black/70"
-              value ={formData.ConfPassword}
-              onChange = {handleChange} 
             />
             <div className="flex items-center gap-1.5  justify-start pl-2">
               <div className="form-control">
@@ -100,7 +110,7 @@ const handleChange = (e) => {
             <div className="flex flex-col md:flex-row gap-2 md:gap-4 justify-center items-center">
 
               <button type="submit"
-                  //              onSubmit={handleSubmit}
+                               onClick={handleSubmit}
                       className="btn btn-active bg-info text-white btn-block max-w-[200px] " >
                 Sign Up
               </button>

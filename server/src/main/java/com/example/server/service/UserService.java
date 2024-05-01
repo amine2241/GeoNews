@@ -10,6 +10,7 @@ public class UserService {
     @Autowired
     UserRepo userRepo;
     public User addUser(User user) {
+        System.out.println("i m called");
         return userRepo.save(user);
     }
 

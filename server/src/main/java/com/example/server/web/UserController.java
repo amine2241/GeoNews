@@ -2,22 +2,23 @@ package com.example.server.web;
 
 import com.example.server.entities.User;
 import com.example.server.service.UserService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
+@RestController
+@RequestMapping("/user")
+@Controller
 public class UserController {
+    @Autowired
 UserService userService;
-    @PostMapping(path="/add")
-    User editProductByPrice(@RequestParam String firstName,
-                            @RequestParam String  lastName,
-                            @RequestParam String  email,
-                            @RequestParam String password){
-        User user = new User();
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
-        user.setEmail(email);
-        user.setEmail(password);
-        return userService.addUser(user);
+
+    @PostMapping(path="/registration")
+    public @ResponseBody String addNewUser (@RequestBody User user){
+        userService.addUser(user);
+        return "Saved";
     }
 
 }
