@@ -1,4 +1,5 @@
 import {React,useState} from 'react'
+import axios from 'axios';
 import Sign from "../images/signup_image.png"
 
 const SignUpForm = () => {
@@ -19,17 +20,28 @@ const handleChange = (e) => {
 };
 const handleSubmit = (event) => {
   console.log("hello");
-  fetch("http://localhost:9000/user/registration", {
-    body: JSON.stringify(formData), // Corrected typo here
-    method: "POST",
+  // fetch("http://localhost:9000/user/registration", {
+  //   body: JSON.stringify(formData), // Corrected typo here
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  // }).then(
+  //     response => {
+  //       return response.json(); // Ensure this is inside the then block
+  //     }
+  // )
+  axios.post('http://localhost:9000/user/registration', formData, {
     headers: {
       "Content-Type": "application/json",
-    },
-  }).then(
-      response => {
-        return response.json(); // Ensure this is inside the then block
-      }
-  )
+    }
+  })
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
   event.preventDefault();
 };
   let color = 'bg-red-500'
