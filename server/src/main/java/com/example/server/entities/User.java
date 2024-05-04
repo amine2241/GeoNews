@@ -30,5 +30,7 @@ public class User {
     @NotNull
     @Email
     private String  email;
+    @NotNull
+    @Size(min=10, max=30)
     private String password;
 }

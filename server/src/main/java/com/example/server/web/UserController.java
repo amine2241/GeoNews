@@ -2,6 +2,7 @@ package com.example.server.web;
 
 import com.example.server.entities.User;
 import com.example.server.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ public class UserController {
 UserService userService;
 
     @PostMapping(path="/registration")
-    public @ResponseBody String addNewUser (@RequestBody User user){
+    public @ResponseBody String addNewUser (@Valid  @RequestBody User user){
         userService.addUser(user);
         return "Saved";
     }
