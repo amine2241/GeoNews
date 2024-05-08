@@ -9,6 +9,11 @@ const [formData, setFormData] = useState({
   email : '',
   password:'',
 });
+  const [firstNameError, setFirstNameError] = useState('');
+  const [lastNameError, setLastNameError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
 const handleChange = (e) => {
   const { name, value } = e.target;
   setFormData(prevState => ({
@@ -38,9 +43,28 @@ const handleSubmit = (event) => {
   })
   .then(function (response) {
     console.log(response);
-  })
-  .catch(function (error) {
+  }).catch(function (error) {
     console.log(error);
+    const input_errors = error.response.data.fieldErrors;
+    if(input_errors) {
+      input_errors.forEach(fieldError => {
+        if(fieldError.field === 'firstName'){
+          setFirstNameError(fieldError.message);
+        }
+        if(fieldError.field === 'lastName'){
+          setLastNameError(fieldError.message);
+        }
+        if(fieldError.field === 'email'){
+          setEmailError(fieldError.message);
+        }
+
+        if(fieldError.field === 'password'){
+          setPasswordError(fieldError.message);
+        }
+      });
+    } else {
+      alert("Success !!");
+    }
   });
   event.preventDefault();
 };
@@ -63,45 +87,67 @@ const handleSubmit = (event) => {
         <div className="w-full mt-5 sm:mt-8">
           <div className="mx-auto w-full sm:max-w-md md:max-w-lg flex flex-col gap-5">
             <div className="flex flex-col sm:flex-row gap-3">
+              <div>
               <input
-                type="text"
-                name = "firstName"
-                placeholder="Enter Your First Name"
-                className="input input-bordered border-[#00BFA6] w-full max-w-xs text-black placeholder:text-black/70"
-                value ={formData.firstName}
-                onChange = {handleChange} 
+                  type="text"
+                  name="firstName"
+                  placeholder="Enter Your First Name"
+                  className="input input-bordered border-[#00BFA6] w-full max-w-xs text-black placeholder:text-black/70"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  onInput={()=>setFirstNameError('')}
               />
+                {firstNameError?
+                    <div className = "label">
+                      <span className="label-text-alt text-red-500">{firstNameError}</span>
+                    </div>
+                    : ''}
+              </div>
+              <div>
               <input
-                type="text"
-                name = "lastName"
-                placeholder="Enter Your Last Name"
-                className="input input-bordered border-[#00BFA6] w-full max-w-xs text-black placeholder:text-black/70"
-                value ={formData.lastName}
-                onChange = {handleChange} 
-                
+                  type="text"
+                  name="lastName"
+                  placeholder="Enter Your Last Name"
+                  className="input input-bordered border-[#00BFA6] w-full max-w-xs text-black placeholder:text-black/70"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  onInput={()=>setLastNameError('')}
+
               />
+                {lastNameError?
+                <div className = "label">
+                    <span className="label-text-alt text-red-500">{lastNameError}</span>
+                </div>
+                  : ''}
+              </div>
+            </div>
+            <div>
+            <input
+                type="email"
+                name="email"
+                placeholder="Enter Your Email"
+                className="input input-bordered border-[#00BFA6] w-full text-black placeholder:text-black/70"
+                value={formData.email}
+                onChange={handleChange}
+                onInput={()=>setEmailError('')}
+            />
+              {emailError?
+              <span className="label-text-alt text-red-500">{emailError}</span>
+              : ''}
             </div>
             <input
-              type="email"
-              name = "email"
-              placeholder="Enter Your Email"
-              className="input input-bordered border-[#00BFA6] w-full text-black placeholder:text-black/70"
-              value ={formData.email}
-              onChange = {handleChange} 
+                type="text"
+                name="password"
+                placeholder="Enter Your Password"
+                className="input input-bordered border-[#00BFA6] w-full text-black placeholder:text-black/70"
+                value={formData.password}
+                onChange={handleChange}
             />
             <input
-              type="text"
-              name = "password"
-              placeholder="Enter Your Password"
-              className="input input-bordered border-[#00BFA6] w-full text-black placeholder:text-black/70"
-              value ={formData.password}
-              onChange = {handleChange} 
-            />
-            <input
-              type="Password"
-              name = "ConfPassword"
-              placeholder="Confirm Your Password"
-              className="input input-bordered border-[#00BFA6] w-full text-black placeholder:text-black/70"
+                type="Password"
+                name="ConfPassword"
+                placeholder="Confirm Your Password"
+                className="input input-bordered border-[#00BFA6] w-full text-black placeholder:text-black/70"
             />
             <div className="flex items-center gap-1.5  justify-start pl-2">
               <div className="form-control">
@@ -122,8 +168,8 @@ const handleSubmit = (event) => {
             <div className="flex flex-col md:flex-row gap-2 md:gap-4 justify-center items-center">
 
               <button type="submit"
-                               onClick={handleSubmit}
-                      className="btn btn-active bg-info text-white btn-block max-w-[200px] " >
+                      onClick={handleSubmit}
+                      className="btn btn-active bg-info text-white btn-block max-w-[200px] ">
                 Sign Up
               </button>
             </div>
@@ -131,7 +177,7 @@ const handleSubmit = (event) => {
         </div>
       </div>
     </div>
-  </div>
+    </div>
   )
 }
 
