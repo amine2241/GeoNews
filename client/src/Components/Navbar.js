@@ -5,11 +5,12 @@ export default function Navbar() {
   var curr = new Date();
   curr.setDate(curr.getDate());
   var today = curr.toISOString().substring(0,10);
-  return (<form>
-    <div className="navbar navbar-expand-lg navbar-dark bg-base-100">
+  return (
+    <div className="navbar navbar-expand-lg navbar-dark bg-base-100 " >
       <div className="navbar-start">
         <Link to='/' className="btn btn-ghost text-xl" style={{color: "black", fontWeight: "bold"}}>GeoNews</Link>
       </div>
+      <form>
       <div className="navbar-center">
         <div className="navbar-center hidden lg:flex ">
           <ul className=" menu-horizontal px-1 space-x-40">
@@ -24,12 +25,12 @@ export default function Navbar() {
           </ul>
         </div>
       </div>
+      </form>
       <div className="navbar-end">
         <Link to='/signup' className="btn" style={{color: "#00BFA6"}}>Sign-Up</Link>
         <Link to='/login' className="btn" style={{color: "#fe4f02"}}>Log-In</Link>
       </div>
     </div>
-      </form>
       /*  FOR LOGGED USERS:----------------------------------------------------------------------------------
 
           <div className="dropdown dropdown-end">
