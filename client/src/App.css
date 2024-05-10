@@ -21,7 +21,7 @@
   @apply text-[grey];
 }
 .loop {
-  @apply absolute right-[710px] top-[15px];
+  @apply absolute right-[716px] top-[15px];
 }
 .datepicker {
   font-family: inherit;

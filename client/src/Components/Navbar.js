@@ -1,9 +1,11 @@
 import React from 'react'
 import lp from "../images/loop.png";
 import { Link } from "react-router-dom";
+import * as L from "leaflet";
 export default function Navbar() {
   var curr = new Date();
   curr.setDate(curr.getDate());
+
   var today = curr.toISOString().substring(0,10);
   return (
     <div className="navbar navbar-expand-lg navbar-dark bg-base-100 " >
