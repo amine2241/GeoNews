@@ -12,20 +12,23 @@ export default function Map(){
         opacity:35,
         fillOpacity:0.8
     }
-
+    var marker =null;
     const LocationFinder = () => {
-
         const map = useMapEvents({
-            click(e) {
+            click(e) {    
+                if(marker){
+                    map.removeLayer(marker);
+                }
                 console.log(e.latlng);
-                var marker =null
                 var mapdata = L.geoJSON(mapdata).addTo(map);
                 marker = new L.circleMarker(
                     L.latLng(
                         parseFloat(e.latlng.lat),
                         parseFloat(e.latlng.lng),geoJsonMarkerOptions
-                    )).addTo(map);
+                    )).addTo(map);        
+                 
             },
+            
         });
         return null
     };
