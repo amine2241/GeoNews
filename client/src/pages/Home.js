@@ -1,15 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Navbar from '../Components/Navbar'
 import Map from '../Components/Map'
+import Drawer from '../Components/Drawer'
+import { preventDefault } from 'leaflet/src/dom/DomEvent'
 const Home = () => {
+
+ 
     return (
         <div >
-            <div className="sticky top-0 bottom-0 z-10">
-                <Navbar></Navbar>
-            </div>
-            <div className="sticky top-0 z-0">
-                <Map></Map>
-            </div>
+
+           
+               <Drawer></Drawer>
+  
+    
+        
         </div>
 
     )

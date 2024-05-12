@@ -1,8 +1,12 @@
 import {MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap} from 'react-leaflet';
 import "leaflet/dist/leaflet.css";
 import * as L from "leaflet";
+import Drawer from './Drawer';
+import { useRef, useState, useEffect } from 'react';
 
-export default function Map(){
+export default function Map({clickState}){
+    const [mapClicked, setMapClicked ] = useState(false); 
+
 
     const geoJsonMarkerOptions ={
         radius:5,
@@ -12,29 +16,43 @@ export default function Map(){
         opacity:35,
         fillOpacity:0.8
     }
-    var marker =null;
+    const marker = useRef(null);
+
     const LocationFinder = () => {
         const map = useMapEvents({
-            click(e) {    
-                if(marker){
-                    map.removeLayer(marker);
+                click(e) {
+                    console.log("this is marker "+ marker);
+                if(marker.current){
+                    map.removeLayer(marker.current);
+            
                 }
-                console.log(e.latlng);
+                const val = !mapClicked;
+                setMapClicked(val);
+                console.log("mapClicked" +mapClicked);
+           
+        
+           
+                 console.log(e.latlng);
                 var mapdata = L.geoJSON(mapdata).addTo(map);
-                marker = new L.circleMarker(
+                marker.current = new L.circleMarker(
                     L.latLng(
                         parseFloat(e.latlng.lat),
                         parseFloat(e.latlng.lng),geoJsonMarkerOptions
-                    )).addTo(map);        
+                    )).addTo(map); 
+                          
                  
             },
             
+            
         });
-        return null
     };
 
 
+   useEffect(() => {
+            console.log("mapClicked updated:", mapClicked);
+        clickState(mapClicked);
 
+        }, [mapClicked]);
     return(
 <MapContainer center={[51.505, -0.09]} maxBounds={[[-90, -180], [90, 180]]}  boundsOptions={{padding: [200, 200]}}stroke zoom={13} wrapAround = {true}  scrollWheelZoom={true} infinite = {true}maxZoom={11} minZoom={2} className="h-screen" >
   <TileLayer
@@ -45,6 +63,7 @@ export default function Map(){
   />
 
     <LocationFinder/>
+
 
 
 

@@ -28,3 +28,8 @@
   outline: 0;
   background: transparent;
 }
+.drawer-toggle:checked ~ .drawer-side {
+  pointer-events: none;
+  visibility: visible;
+  overflow-y: auto;
+}
