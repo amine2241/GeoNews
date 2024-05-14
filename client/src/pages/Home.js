@@ -7,7 +7,7 @@ const Home = () => {
             <div className="sticky top-0 bottom-0 z-10">
                 <Navbar></Navbar>
             </div>
-            <div className="sticky top-0 z-0">
+            <div className="sticky top-0 z-0" style={{ height: '100%' }}>
                 <Map></Map>
             </div>
         </div>
