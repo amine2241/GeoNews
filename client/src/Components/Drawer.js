@@ -24,7 +24,7 @@ const Drawer = () => {
             </div>
            
   </div> 
-  <div className="drawer-side ">
+  <div className="drawer-side top-16">
     <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
       {/* Sidebar content here */}
       <li><a>Sidebar Item 1</a></li>
