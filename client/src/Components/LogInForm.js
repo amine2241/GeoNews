@@ -1,6 +1,7 @@
 import {React,useState} from 'react'
 import axios from 'axios';
 import Log from "../images/login_image.png"
+import Cookies from 'js-cookie';
 
 const LogInForm = () => {
     const [formData, setFormData] = useState({
@@ -23,7 +24,13 @@ const LogInForm = () => {
             }
           })
           .then(function (response) {
-            
+            if(response.status = 200){
+                console.log("hello i m authenticated")
+                const token = response.data["accessToken"]
+                Cookies.set('token', token, { expires: 7, secure: true });
+                console.log(token);
+
+            }
             console.log(response);
           }).catch(function (error) {
             console.log(error);
