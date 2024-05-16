@@ -33,3 +33,12 @@
   visibility: visible;
   overflow-y: auto;
 }
+.purple_bg {
+  --bs-bg-opacity: 1;
+  background-color: rgb(115 99 255) !important;
+}
+.green_bg{
+  --bs-bg-opacity: 1;
+  background-color: rgb(	53	146	134) !important;
+}
+

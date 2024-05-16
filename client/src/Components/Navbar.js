@@ -29,8 +29,8 @@ export default function Navbar() {
       </div>
       </form>
       <div className="navbar-end">
-        <Link to='/signup' className="btn" style={{color: "#00BFA6"}}>Sign-Up</Link>
-        <Link to='/login' className="btn" style={{color: "#fe4f02"}}>Log-In</Link>
+        <Link to='/signup' className="btn" style={{color: "#359286"}}>Sign-Up</Link>
+        <Link to='/login' className="btn" style={{color: "#7363FF"}}>Log-In</Link>
       </div>
     </div>
       /*  FOR LOGGED USERS:----------------------------------------------------------------------------------

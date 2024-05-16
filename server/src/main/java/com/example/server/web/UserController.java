@@ -2,6 +2,7 @@ package com.example.server.web;
 
 
 import com.example.server.dto.AuthResponseDTO;
+import com.example.server.dto.RegisterDto;
 import com.example.server.entities.UserEntity;
 import com.example.server.service.UserService;
 import jakarta.validation.Valid;
@@ -20,9 +21,9 @@ public class UserController {
     UserService userService;
 
     @PostMapping(path="/registration")
-    public @ResponseBody String addNewUser (@Valid  @RequestBody UserEntity user){
+    public @ResponseBody String addNewUser (@Valid  @RequestBody RegisterDto registerDto){
         System.out.println("hello there partner ");
-        userService.addUser(user);
+        userService.addUser(registerDto);
         return "user registered successfully";
     }
     @PostMapping(path="/login")

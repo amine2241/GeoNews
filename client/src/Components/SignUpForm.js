@@ -6,6 +6,7 @@ const SignUpForm = () => {
 const [formData, setFormData] = useState({
   firstName: '',
   lastName : '',
+  username: '',
   email : '',
   password:'',
 });
@@ -46,6 +47,7 @@ const handleSubmit = (event) => {
   }).catch(function (error) {
     console.log(error);
     const input_errors = error.response.data.fieldErrors;
+    console.log(input_errors);
     if(input_errors) {
       input_errors.forEach(fieldError => {
         if(fieldError.field === 'firstName'){
@@ -81,7 +83,7 @@ const handleSubmit = (event) => {
         <img src={Sign} className="h-[550px]"/>
       </div>
       <div className="mx-auto w-full lg:w-1/2 md:p-10 py-5 md:py-0">
-        <h1 className="text-center text-2xl sm:text-3xl font-semibold text-[#00BFA6]">
+        <h1 className="text-center text-2xl sm:text-3xl font-semibold text-[#359286]">
           Create an Account
         </h1>
         <div className="w-full mt-5 sm:mt-8">
@@ -92,7 +94,7 @@ const handleSubmit = (event) => {
                   type="text"
                   name="firstName"
                   placeholder="Enter Your First Name"
-                  className="input input-bordered border-[#00BFA6] w-full max-w-xs text-black placeholder:text-black/70"
+                  className="input input-bordered border-[#359286] w-full max-w-xs text-black placeholder:text-black/70"
                   value={formData.firstName}
                   onChange={handleChange}
                   onInput={()=>setFirstNameError('')}
@@ -108,7 +110,7 @@ const handleSubmit = (event) => {
                   type="text"
                   name="lastName"
                   placeholder="Enter Your Last Name"
-                  className="input input-bordered border-[#00BFA6] w-full max-w-xs text-black placeholder:text-black/70"
+                  className="input input-bordered border-[#359286] w-full max-w-xs text-black placeholder:text-black/70"
                   value={formData.lastName}
                   onChange={handleChange}
                   onInput={()=>setLastNameError('')}
@@ -123,10 +125,24 @@ const handleSubmit = (event) => {
             </div>
             <div>
             <input
+                type="text"
+                name="username"
+                placeholder="Enter Your Username"
+                className="input input-bordered border-[#359286] w-full text-black placeholder:text-black/70"
+                value={formData.username}
+                onChange={handleChange}
+                onInput={()=>setEmailError('')}
+            />
+              {emailError?
+              <span className="label-text-alt text-red-500">{emailError}</span>
+              : ''}
+            </div>
+            <div>
+            <input
                 type="email"
                 name="email"
                 placeholder="Enter Your Email"
-                className="input input-bordered border-[#00BFA6] w-full text-black placeholder:text-black/70"
+                className="input input-bordered border-[#359286] w-full text-black placeholder:text-black/70"
                 value={formData.email}
                 onChange={handleChange}
                 onInput={()=>setEmailError('')}
@@ -139,7 +155,7 @@ const handleSubmit = (event) => {
                 type="text"
                 name="password"
                 placeholder="Enter Your Password"
-                className="input input-bordered border-[#00BFA6] w-full text-black placeholder:text-black/70"
+                className="input input-bordered border-[#359286] w-full text-black placeholder:text-black/70"
                 value={formData.password}
                 onChange={handleChange}
             />
@@ -147,9 +163,9 @@ const handleSubmit = (event) => {
                 type="Password"
                 name="ConfPassword"
                 placeholder="Confirm Your Password"
-                className="input input-bordered border-[#00BFA6] w-full text-black placeholder:text-black/70"
+                className="input input-bordered border-[#359286] w-full text-black placeholder:text-black/70"
             />
-            <div className="flex items-center gap-1.5  justify-start pl-2">
+            {/* <div className="flex items-center gap-1.5  justify-start pl-2">
               <div className="form-control">
                 <label className="label cursor-pointer">
                   <input
@@ -164,12 +180,12 @@ const handleSubmit = (event) => {
                 </label>
               </div>
 
-            </div>
+            </div> */}
             <div className="flex flex-col md:flex-row gap-2 md:gap-4 justify-center items-center">
 
               <button type="submit"
                       onClick={handleSubmit}
-                      className="btn btn-active bg-info text-white btn-block max-w-[200px] ">
+                      className="btn green_bg text-white btn-block max-w-[200px] ">
                 Sign Up
               </button>
             </div>
