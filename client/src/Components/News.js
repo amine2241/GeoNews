@@ -1,30 +1,108 @@
-import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
 import "leaflet/dist/leaflet.css";
-import React, {useRef} from "react";
-import {setPosition} from "leaflet/src/dom/DomUtil";
+import React, {useEffect, useRef, useState} from "react";
+import newslogo from "../images/news_logo.png";
+import refresh from "../images/refresh_logo.png";
+import url from "../images/link_logo.png";
+import share from "../images/share_logo.png";
 
-export default function Navbar(){
-    const handleClick = ()=>{
-//  const url = 'https://api.worldnewsapi.com/search-news?location-filter=34.051797, -6.807344, 1&latest-publish-date=2024-05-08&earliest-publish-date=2024-05-05';
-        const url = 'https://api.worldnewsapi.com/search-news?source-countries=ma&latest-publish-date=2024-05-08&earliest-publish-date=2024-05-05';
+
+export default function News({cords,showText}){
+    const [newsJSON,setnewsJSON]= useState([])
+    const [showLoad,setshowLoad]= useState(false)
+    const [check,setcheck]= useState(true)
+
+    function fetchNews(){
+
+        setshowLoad(true)
+        setcheck(false)
+        console.log("i started fetching" );
+
+       // const url = 'https://api.worldnewsapi.com/search-news?source-countries=us';
+        const url = 'https://api.worldnewsapi.com/search-news?location-filter='+cords+',75&latest-publish-date=2024-05-15&earliest-publish-date=2024-03-01';
         const apiKey = 'f4b49d26f0f44957a794614a95f66a04';
+        console.log(url);
 
         fetch(url, {
             method: 'GET',
             headers: {
                 'x-api-key': apiKey
             }
+        }).then(response => {
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            console.log("i just finished")
+            return response.json();
         })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => console.log(data))
-            .catch(error => console.error('There was a problem with the fetch operation:', error));
+            .then(data => setnewsJSON(data.news))
+            .then(function(data){ setshowLoad(false)})
+            .catch(error => console.error('There was a problem with the fetch operation:', error))
     }
-    return(<div>
-        <button onClick={handleClick}> Hello there </button></div>
+
+    useEffect(
+        function onChange() {
+            if (showText !== showText.current) {
+                setcheck(true)
+            }
+        },
+        [showText]
+    )
+
+
+
+    return (
+
+        <div>{console.log(showText)}
+            {console.log(check)}
+            <table className="menu p-4 w-80  bg-base-200 min-h-screen ">
+                <tr className="border-b-2 border-black ">
+                    <th className="pb-2"><img src={newslogo} width="30" height="30"/></th>
+                    <th className="pl-3">NEWS ARTICLES </th>
+                    <th className="pl-20"><img className="cursor-pointer" src={refresh} width="30" height="30" onClick={fetchNews}/></th>
+                </tr>
+
+                {!showLoad && !check  && (
+                    newsJSON.map(news => {
+                        return (
+                            <div className="pt-2">
+                                <tr>
+                                    <td className="font-semibold">{news['title']}</td>
+                                </tr>
+                                <tr>
+                                    <td><img src={news['image']} width="270" height="70"/></td>
+                                </tr>
+                                <tr>
+                                    <td className="font-semibold pt-2">publish date: {news['publish_date']}</td>
+                                </tr>
+                                <tr className="border-b-2 border-black ">
+                                    <td className="pt-2 pb-2">
+                                        <a href={news['url']} target="_blank">
+                                            <img src={url} width="20" height="30" className="float-left cursor-pointer"/>
+                                        </a>
+                                        <a className="twitter" href={"https://twitter.com/intent/tweet?text="+news['title']+"&url="+news['url']} target="blank" title="twitter">
+                                            <img src={share} width="20" height="20" className="float-right cursor-pointer"/>
+                                        </a>
+                                </td>
+                                </tr>
+                            </div>
+                        )
+                    })
+                )}
+
+                {check && !showLoad && (
+                    <span className=" text-xs pt-44 text-gray-500">
+                        Click the Refresh button to the top right to generate news articles!<br/> <br/>
+                        You can also change the date to generate articles belonging to that time period!
+                    </span>
+                )}
+
+                {showLoad && (
+                    <span className="loading load loading-spinner loading-lg"></span>
+                )}
+
+
+            </table>
+        </div>
     )
 }

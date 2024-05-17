@@ -10,6 +10,7 @@
     "bootstrap": "^5.3.3",
     "js-cookie": "^3.0.5",
     "leaflet": "^1.9.4",
+    "leaflet-geosearch": "^3.11.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
