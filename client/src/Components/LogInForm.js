@@ -2,7 +2,7 @@ import {React,useState} from 'react'
 import axios from 'axios';
 import Log from "../images/login_image.png"
 import Cookies from 'js-cookie';
-
+import { useHistory } from 'react-router-dom';
 const LogInForm = () => {
     const [formData, setFormData] = useState({
         username : '',
@@ -25,11 +25,9 @@ const LogInForm = () => {
           })
           .then(function (response) {
             if(response.status = 200){
-                console.log("hello i m authenticated")
                 const token = response.data["accessToken"]
                 Cookies.set('token', token, { expires: 7, secure: true });
-                console.log(token);
-
+                redirect();
             }
             console.log(response);
           }).catch(function (error) {
@@ -39,6 +37,11 @@ const LogInForm = () => {
           });
           event.preventDefault();
     };
+
+    const redirect =()=>{
+        window.location.href ='/'
+    }
+
     return (
         <div className="flex justify-center items-center w-full  min-h-screen bg-white px-5 py-5">
             <div className="xl:max-w-7xl bg-white drop-shadow-xl border border-black/20 w-full rounded-md flex justify-between items-stretch px-5 xl:px-5 py-5">
@@ -78,6 +81,7 @@ const LogInForm = () => {
                                    >
                                     Log-In
                                 </button>
+                     
                             </div>
                         </div>
                     </div>
