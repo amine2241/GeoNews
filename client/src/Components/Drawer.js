@@ -23,7 +23,9 @@ const Drawer = () => {
 
     function setHeightCheeseDiv() {
         const height = document.getElementById('bar')?.clientHeight;
-        document.getElementById('cheese').style.height = `${height}px`;
+        if(height!=null){
+            document.getElementById('cheese').style.height = `${height}px`;
+        }
     }
 
     useEffect(() => {
