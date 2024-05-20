@@ -73,29 +73,26 @@ export default function Navbar(props) {
                 </form>
             )}
             <div className='navbar-end'>
-      {props.authenticated ?  
-      <div className="dropdown dropdown-end">
-          <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-            <div className="w-10 rounded-full">
-              <img alt="Tailwind CSS Navbar component"
-                   src={vault}/>
+                {props.authenticated ?
+                    <div className="dropdown dropdown-end pr-4">
+                        <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                            <div className="w-10 rounded-full">
+                                <img alt="Tailwind CSS Navbar component"
+                                    src={vault}/>
+                            </div>
+                        </div>
+                        <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
+                            <li className='border-b-2 border-black font-bold pl-3'>{props.username}</li>
+                            <li className="text-red-600"><a onClick={Logout}>Logout</a></li>
+                        </ul>
+                    </div>
+                    :
+                    <div>
+                        <Link to='/signup' className="btn" style={{color: "#359286"}}>Sign-Up</Link>
+                        <Link to='/login' className="btn" style={{color: "#7363FF"}}>Log-In</Link>
+                    </div>
+                }
             </div>
-          </div>
-          <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
-          <li className='border-b-2 border-black font-bold pl-3'>{props.username}</li>
-            <li className="text-red-600"><a onClick={Logout}>Logout</a></li>
-          </ul>
         </div>
-
-      
-      :      <div className="navbar-end">
-   <Link to='/signup' className="btn" style={{color: "#359286"}}>Sign-Up</Link>
-   <Link to='/login' className="btn" style={{color: "#7363FF"}}>Log-In</Link>
-      </div>}
-
-    </div>
-    </div>
-
-
-)
+    )
 }
