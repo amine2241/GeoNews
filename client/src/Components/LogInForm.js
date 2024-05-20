@@ -8,6 +8,7 @@ const LogInForm = () => {
         username : '',
         password:'',
     });
+    const [inputError, setInputError] = useState("");
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prevState => ({
@@ -33,8 +34,9 @@ const LogInForm = () => {
             console.log(response);
           }).catch(function (error) {
             console.log(error);
-            const input_errors = error.response.data.fieldErrors;
-            console.log(input_errors);
+            const inputError = error.response.data;
+            setInputError(inputError)
+            console.log(inputError);
           });
           event.preventDefault();
     };
@@ -60,6 +62,7 @@ const LogInForm = () => {
                     </h1>
                     <div className="w-full mt-5 sm:mt-8">
                         <div className="mx-auto w-full sm:max-w-md md:max-w-lg flex flex-col gap-5">
+                            <div>
                             <input
                                 type="text"
                                 name = "username"
@@ -68,6 +71,8 @@ const LogInForm = () => {
                                 value ={formData.username}
                                 onChange = {handleChange}
                             />
+                            </div>
+                            <div>
                             <input
                                 type="password"
                                 name = "password"
@@ -75,7 +80,10 @@ const LogInForm = () => {
                                 className="input input-bordered border-[#7363FF] w-full text-black placeholder:text-black/70"
                                 value ={formData.password}
                                 onChange = {handleChange}
-                            />
+                            />{inputError?
+                         <span className="label-text-alt text-red-500">{inputError}</span>:''}
+                            </div>
+                       
                             <div className="flex flex-col md:flex-row gap-2 md:gap-4 justify-center items-center">
                                 <button onClick={handleSubmit} type = "submit"
                                          className="btn purple_bg btn-block text-white max-w-[200px]"
