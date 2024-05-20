@@ -27,7 +27,16 @@
   font-family: inherit;
   outline: 0;
   background: transparent;
+  cursor:pointer;
 }
+input {
+  cursor: pointer;
+}
+
+input::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+}
+
 .drawer-toggle:checked ~ .drawer-side {
   pointer-events: auto;
   visibility: visible;
@@ -262,4 +271,8 @@
 }
 /*----------------------------------------------------------------------------------------------------------------*/
 
+.leaflet-control-zoom{
+  position: absolute;
+  top: 544px;
+}
 

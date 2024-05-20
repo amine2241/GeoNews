@@ -1,57 +1,78 @@
-import {React, useEffect, useState} from 'react'
-import lp from "../images/loop.png";
+import React, {useEffect, useState} from 'react'
+import arrow from "../images/arrow_logo.png";
 import { Link } from "react-router-dom";
-import * as L from "leaflet";
+import moment from "moment";
+import "react-datepicker/dist/react-datepicker.css";
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import vault from "../images/vault_boy.png"
-export default function Navbar(props) {
 
-//   useEffect(() => {
-// function1();
-//   });
-//   const function1 = ()=>{
-//     const  token= Cookies.get("token");
-//     console.log(token);
-//     // axios.defaults.withCredentials = true;
-//     if(token!= ""){
-//     axios
-//     .get("http://localhost:9000/user/details",{
-//       headers: { token:token }
-//     } )
-//     .then(function (response) {
-//       console.log(response);
-//       setUsername(response.data);
-//     });}
-//   }
+export default function Navbar({dateFrom,dateTo}) {
 
-  var curr = new Date();
-  curr.setDate(curr.getDate());
+    //Dates Configuration-------------------------------------------------------------------------
+    var curr = new Date();
+    var today = curr.toISOString().substring(0,10);
 
-  var today = curr.toISOString().substring(0,10);
+    const [valueFrom, setvalueFrom] = useState(moment().format('YYYY-MM-DD'));
+    const [valueTo, setvalueTo] = useState(moment().format('YYYY-MM-DD'));
 
-  function Logout(){
-    Cookies.remove('token');
-    window.location.reload()
-  }
+    const onChangeDateFrom = e => {
+        const newDate = moment(new Date(e.target.value)).format('YYYY-MM-DD');
+        setvalueFrom(newDate);
+        dateFrom(newDate);
+    };
+    const onChangeDateTo = e => {
+        const newDate = moment(new Date(e.target.value)).format('YYYY-MM-DD');
+        setvalueTo(newDate);
+        dateTo(newDate);
+    };
 
-  return (
-    <div className="navbar navbar-expand-lg navbar-dark bg-base-100 " >
-      <div className="navbar-start">
-        <Link to='/' className="btn btn-ghost text-xl" style={{color: "black", fontWeight: "bold"}}>GeoNews</Link>
-      </div>
-      <form>
-      <div className="navbar-center">
-        <div className="navbar-center hidden lg:flex ">
-          <ul className=" menu-horizontal px-1 space-x-40">
-            <li>
-              <input type="date" className="datepicker" value={today} max={today}/>
-            </li>
-          </ul>
-        </div>
-      </div>
-      </form>
-      <div className='navbar-end'>
+    //Navbar change------------------------------------------------------------------------------------
+    const [showOptions, setshowOptions ] = useState(false);
+
+    useEffect(() => {
+        if(window.location.href==="http://localhost:3000/"){
+            setshowOptions(true)
+        }
+    },[showOptions]);
+
+    function Logout(){
+      Cookies.remove('token');
+      window.location.reload()
+    }
+
+    //Return------------------------------------------------------------------------------------
+    return (
+        <div className="navbar navbar-expand-lg navbar-dark bg-base-100">
+            <div className="navbar-start">
+                <Link to='/' className="btn btn-ghost text-xl" style={{color: "black", fontWeight: "bold"}}>GeoNews</Link>
+            </div>
+            {showOptions && (
+                <form>
+                    <div className="navbar-center">
+                        <div className="navbar-center hidden lg:flex ">
+                            <ul className=" menu-horizontal px-1 space-x-40">
+                                <li className="pr-40">
+                                <span className="float-left pr-5">
+                                    From:<input id="From" type="date" className="datepicker pl-2" value={valueFrom}
+                                                max={valueTo}
+                                                min="2022-03-15" onChange={(e) => onChangeDateFrom(e)}/>
+                                </span>
+                                    <span className="float-left pt-1">
+                                    <img src={arrow} alt="arrow" width="20" height="20"/>
+                                </span>
+                                    <span className=" pl-5">
+                                    To:<input id="To" type="date" className="datepicker pl-2" value={valueTo}
+                                              max={today}
+                                              min={valueFrom} onChange={(e) => onChangeDateTo(e)}/>
+                                </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </form>
+            )}
+            <div className='navbar-end'>
       {props.authenticated ?  
       <div className="dropdown dropdown-end">
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">

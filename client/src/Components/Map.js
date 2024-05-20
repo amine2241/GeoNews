@@ -3,7 +3,7 @@ import "leaflet/dist/leaflet.css";
 import * as L from "leaflet";
 import { useRef, useState, useEffect } from 'react';
 import icon from "../images/marker_icon.png"
-import {GeoSearchControl, MapBoxProvider, OpenStreetMapProvider} from 'leaflet-geosearch';
+import {GeoSearchControl, OpenStreetMapProvider} from 'leaflet-geosearch';
 
 
 
@@ -13,7 +13,7 @@ export default function Map({clickState,cordsMap}){
 
     const SearchField = () => {
 
-        // @ts-ignore
+        //Search Configuration--------------------------------------------------------------------------------------
         const searchControl = new GeoSearchControl({
             provider: new OpenStreetMapProvider(),
             style: 'bar ',
@@ -25,34 +25,27 @@ export default function Map({clickState,cordsMap}){
             keepResult: false,
             searchLabel: 'search'
         });
-
         const map = useMap();
+
         useEffect(() => {
             map.addControl(searchControl);
             return () => map.removeControl(searchControl);
-
-        }, []);
-
-
-
+        }, [map,searchControl]);
     };
 
-    
-
+    //Get coordinates and add a marker----------------------------------------------------------------------------------
     var markicon = L.icon({
         iconUrl: icon,
         iconSize:     [38, 38], // size of the icon
         iconAnchor:   [22, 45], // point of the icon which will correspond to marker's location
     });
-    const marker = useRef(null);
 
+    const marker = useRef(null);
     const LocationFinder = () => {
         const map = useMapEvents({
-
             click(e) {
                 if(marker.current){
                     map.removeLayer(marker.current);
-
                 }
 
                 console.log(e.latlng);
@@ -71,23 +64,22 @@ export default function Map({clickState,cordsMap}){
         });
     };
 
-
+    //Show sidebar id the marker is clicked------------------------------------------------------------------------
     useEffect(() => {
         clickState(showNews);
     }, [showNews]);
 
+    //Return-------------------------------------------------------------------------------------------------------
     return(
-        <MapContainer center={[51.505,-0.09]} maxBounds={[[-90, -180], [90, 180]]}  boundsOptions={{padding: [200, 200]}} stroke zoom={13} wrapAround = {true} scrollWheelZoom={true}  infinite = {true} maxZoom={11} minZoom={2} className="h-screen">
+        <MapContainer center={[51.505,-0.09]} maxBounds={[[-90,-180], [90,180]]}  boundsOptions={{padding:[200,200]}} stroke zoom={13} wrapAround = {true} scrollWheelZoom={true}  infinite = {true} maxZoom={11} minZoom={2} className="h-screen">
             <TileLayer
                 attribution= '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
                 url='https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png'
                 subdomains={'abcd'}
-                maxZoom = { 20}
+                maxZoom = {20}
             />
-
             <LocationFinder/>
-            {<SearchField/>}
-
+            <SearchField/>
         </MapContainer>
 
     )
