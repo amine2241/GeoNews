@@ -28,8 +28,7 @@ public class UserController {
         return "user registered successfully";
     }
     @PostMapping(path="/login")
-    public ResponseEntity<AuthResponseDTO> login (@RequestBody UserEntity user){
-        System.out.println("hello there said ");
+    public ResponseEntity<?> login (@RequestBody UserEntity user){
        return  userService.loginUser(user);
 
     }

@@ -14,10 +14,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.server.ResponseStatusException;
 
 
 import java.util.Collections;
@@ -45,25 +47,29 @@ public class UserService {
 //        this.authenticationManager = authenticationManager;
 //    }
 
-    public ResponseEntity<AuthResponseDTO> loginUser(UserEntity user){
-        System.out.println("hello there partner 10 ");
+    public ResponseEntity<?> loginUser(UserEntity user){
         System.out.println(user.getUsername());
         System.out.println(user.getPassword());
         UsernamePasswordAuthenticationToken test =   new UsernamePasswordAuthenticationToken(
                 user.getUsername(),
                 user.getPassword());
-        System.out.println("hello "+ test);
+        System.out.println("i m here so hello ");
+        try{
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         user.getUsername(),
                         user.getPassword()));
-        System.out.println("hello there partner 20 ");
+//        if (!authentication.isAuthenticated()){
+//            System.out.println("i m here so hello ");
+//            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE,"wrong user info");
+//        }
+        System.out.println("authentication"+authentication);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        System.out.println("hello there partner 30 ");
-        System.out.println("hello there partner 40 " + jwtGenerator.generateToken(authentication) );
         String token = jwtGenerator.generateToken(authentication);
-        System.out.println("hello there partner 40 ");
-        return new ResponseEntity<AuthResponseDTO>(new AuthResponseDTO(token), HttpStatus.OK);
+        return new ResponseEntity<AuthResponseDTO>(new AuthResponseDTO(token), HttpStatus.OK);}
+        catch (AuthenticationException e){
+            return new ResponseEntity<String>("Username or Password are wrong ", HttpStatus.NOT_ACCEPTABLE);
+        }
     }
 
     public UserEntity addUser(@Valid RegisterDto registerDto) {
