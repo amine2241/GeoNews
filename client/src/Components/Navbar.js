@@ -7,7 +7,7 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 import vault from "../images/vault_boy.png"
 
-export default function Navbar({dateFrom,dateTo}) {
+export default function Navbar(props) {
 
     //Dates Configuration-------------------------------------------------------------------------
     var curr = new Date();
@@ -19,12 +19,12 @@ export default function Navbar({dateFrom,dateTo}) {
     const onChangeDateFrom = e => {
         const newDate = moment(new Date(e.target.value)).format('YYYY-MM-DD');
         setvalueFrom(newDate);
-        dateFrom(newDate);
+        props.dateFrom(newDate);
     };
     const onChangeDateTo = e => {
         const newDate = moment(new Date(e.target.value)).format('YYYY-MM-DD');
         setvalueTo(newDate);
-        dateTo(newDate);
+        props.dateTo(newDate);
     };
 
     //Navbar change------------------------------------------------------------------------------------
