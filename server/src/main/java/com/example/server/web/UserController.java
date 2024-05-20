@@ -7,6 +7,7 @@ import com.example.server.entities.UserEntity;
 import com.example.server.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Controller;
@@ -31,6 +32,12 @@ public class UserController {
         System.out.println("hello there said ");
        return  userService.loginUser(user);
 
+    }
+    @GetMapping(path="/details")
+   @ResponseBody public String getUserDetails (@RequestHeader("token")String token){
+        System.out.println(token);
+        String username= userService.getUsername(token);
+    return username;
     }
 
 

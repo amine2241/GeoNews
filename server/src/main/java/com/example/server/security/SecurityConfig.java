@@ -37,7 +37,7 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable).exceptionHandling(exception -> exception.authenticationEntryPoint(authEntryPoint)).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                         .authorizeHttpRequests((requests) -> requests
-                                .requestMatchers("/user/login","/user/registration").permitAll().anyRequest().authenticated())// Allow registration endpoint without authentication
+                                .requestMatchers("/user/login","/user/registration", "/user/details").permitAll().anyRequest().authenticated())// Allow registration endpoint without authentication
                 .httpBasic(Customizer.withDefaults());
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();

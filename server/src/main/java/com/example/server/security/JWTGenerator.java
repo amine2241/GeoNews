@@ -11,30 +11,31 @@ import org.springframework.security.authentication.AuthenticationCredentialsNotF
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.Charset;
 import java.security.Key;
 import java.util.Date;
 @Component
 @EnableAutoConfiguration
 public class JWTGenerator {
-    private static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+    private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
     public String generateToken (Authentication authentication){
-        System.out.println("I m here here here 1");
         String username = authentication.getName();
         Date currentDate = new Date();
-        System.out.println("I m here here here 2");
         Date expireDate = new Date(currentDate.getTime()+SecurityConstants.JWT_EXPIRATION);
-        System.out.println("I m here here here 3");
+        System.out.println("la date est "+ expireDate);
         String token = Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(currentDate)
                 .setExpiration(expireDate)
                 .signWith(key,SignatureAlgorithm.HS512)
                 .compact();
-        System.out.println("I m here here here 4");
         return token;
     }
     public String getUsernameFromJwt(String token) {
-        Claims claims = Jwts.parser().setSigningKey(SecurityConstants.JWT_SECRET).parseClaimsJws(token).getBody();
+        System.out.println("this is the key "+ key);
+        token = token.replace("\"","");
+        Claims claims =  Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
+        System.out.println(claims.getSubject());
         return claims.getSubject();
     }
     public boolean validateToken (String token){

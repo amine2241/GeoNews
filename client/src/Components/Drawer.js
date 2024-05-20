@@ -3,7 +3,7 @@ import Navbar from '../Components/Navbar'
 import Map from '../Components/Map'
 import News from '../Components/News'
 
-const Drawer = () => {
+const Drawer = (props) => {
 
 
     const [clicked, setClicked] = useState(true);
@@ -42,7 +42,7 @@ const Drawer = () => {
           <div className="drawer-content">
               {/* Page content here */}
               <div className="sticky top-0 bottom-0 z-1">
-                  <Navbar></Navbar>
+                  <Navbar username = {props.username} authenticated = {props.authenticated}></Navbar>
               </div>
               <div className="sticky" onClick={()=>setshowText(true)}>
                   <Map clickState={clickState} cordsMap={cords}></Map>

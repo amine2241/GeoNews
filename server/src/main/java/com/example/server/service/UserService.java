@@ -79,6 +79,11 @@ public class UserService {
         System.out.println("these are the roles my friend " + user.getRoles());
         return userRepo.save(user);
     }
+    public String  getUsername(String token ) {
+        String username = jwtGenerator.getUsernameFromJwt(token);
+        System.out.println(username);
+        return username;
+    }
 
 
 

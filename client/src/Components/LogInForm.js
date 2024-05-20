@@ -26,7 +26,8 @@ const LogInForm = () => {
           .then(function (response) {
             if(response.status = 200){
                 const token = response.data["accessToken"]
-                Cookies.set('token', token, { expires: 7, secure: true });
+                const inFifteenMinutes = new Date(new Date().getTime() + 60 * 60 * 1000);
+                Cookies.set('token', token, { expires: inFifteenMinutes, secure: true });
                 redirect();
             }
             console.log(response);
