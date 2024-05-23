@@ -5,8 +5,8 @@ import refresh from "../images/refresh_logo.png";
 import url from "../images/link_logo.png";
 import share from "../images/share_logo.png";
 
-
-export default function News({showText,cords,dateFrom,dateTo}){
+ const News = ({showText,cords,dateFrom,dateTo,showmod})=>{
+    const [showModal, setShowModal] = useState(false);
 
     //Initiate Variables------------------------------------------------------------------------------------
     const [newsJSON,setnewsJSON]= useState([])
@@ -19,8 +19,8 @@ export default function News({showText,cords,dateFrom,dateTo}){
         setcheck(false)
         console.log("i started fetching" );
 
-        //const url = 'https://api.worldnewsapi.com/search-news?source-countries=us';
-        const url = 'https://api.worldnewsapi.com/search-news?location-filter='+cords+',75&latest-publish-date='+dateTo+'&earliest-publish-date='+dateFrom;
+        const url = 'https://api.worldnewsapi.com/search-news?source-countries=us';
+        //const url = 'https://api.worldnewsapi.com/search-news?location-filter='+cords+',75&latest-publish-date='+dateTo+'&earliest-publish-date='+dateFrom;
         const apiKey = 'f4b49d26f0f44957a794614a95f66a04';
         console.log(url);
 
@@ -63,7 +63,6 @@ export default function News({showText,cords,dateFrom,dateTo}){
                     <th className="pl-3">NEWS ARTICLES </th>
                     <th className="pl-20"><img className="cursor-pointer" src={refresh} alt="refresh btn" width="30" height="30" onClick={fetchNews}/></th>
                 </tr>
-
                 {!showLoad && !check && (
                     newsJSON.length !== 0 ?
                         newsJSON.map(news => {
@@ -84,12 +83,12 @@ export default function News({showText,cords,dateFrom,dateTo}){
                                                 <img src={url} alt="url btn" width="20" height="30"
                                                      className="float-left cursor-pointer"/>
                                             </a>
-                                            <a className="twitter"
+                                            {/* <a className="twitter"
                                                href={"https://twitter.com/intent/tweet?text=" + news['title'] + "&url=" + news['url']}
                                                target="blank" title="twitter">
                                                 <img src={share} alt="share btn" width="20" height="20"
                                                      className="float-right cursor-pointer"/>
-                                            </a>
+                                            </a> */}        <button className="bg-blue-500 p-2 rounded text-white" onClick={() => showmod(true)}>Open</button>
                                         </td>
                                     </tr>
                                 </div>
@@ -117,3 +116,4 @@ export default function News({showText,cords,dateFrom,dateTo}){
         </div>
     )
 }
+export default News;

@@ -5,9 +5,11 @@ import Drawer from '../Components/Drawer'
 import { preventDefault } from 'leaflet/src/dom/DomEvent'
 import Cookies from 'js-cookie';
 import axios from 'axios';
+
 const Home = () => {
     const [username, setUsername] = useState("");
     const [authenticated, setAuthenticated] = useState(false);
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         console.log("heldiedneidneid");
@@ -44,9 +46,7 @@ const Home = () => {
  
     return (
         <div >
-               <Drawer authenticated = {authenticated} username = {username}></Drawer>
-  
-    
+                <Drawer authenticated = {authenticated} username = {username}></Drawer> 
         
         </div>
 
