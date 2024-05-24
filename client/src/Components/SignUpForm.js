@@ -41,7 +41,6 @@ const SignUpForm = () => {
       setpasswordMatch('Passwords do not match!')
     }else{
 
-      setpasswordMatch('')
       axios.post('http://localhost:9000/user/registration', formData, {
         headers: {
           "Content-Type": "application/json",
@@ -103,8 +102,8 @@ const SignUpForm = () => {
               Create an Account
             </h1>
             <div className="w-full mt-5 sm:mt-8">
-              <div className="mx-auto w-full sm:max-w-md md:max-w-lg flex flex-col gap-5">
-                <div className="flex flex-col sm:flex-row gap-3">
+              <div className="mx-auto w-full sm:max-w-md md:max-w-lg flex flex-col gap-4">
+                <div className="flex flex-col sm:flex-row gap-3 ">
                   <div>
                     <input
                         type="text"
@@ -119,7 +118,7 @@ const SignUpForm = () => {
                         <div className="label">
                           <span className="label-text-alt text-red-500">{firstNameError}</span>
                         </div>
-                        : ''}
+                        : <div> &nbsp;</div>}
                   </div>
                   <div>
                     <input
@@ -135,7 +134,7 @@ const SignUpForm = () => {
                         <div className="label">
                           <span className="label-text-alt text-red-500">{lastNameError}</span>
                         </div>
-                        : ''}
+                        : <div> &nbsp;</div>}
                   </div>
                 </div>
                 <div>
@@ -148,7 +147,9 @@ const SignUpForm = () => {
                       onChange={handleChange}
                       onInput={() => emptyUNerrors()}
                   />
-                  <span className="label-text-alt text-red-500">{UsernameError}{Unique}</span>
+                  {UsernameError || Unique ?
+                      <span className="label-text-alt text-red-500">{UsernameError}{Unique}</span>
+                      : <div> &nbsp;</div>}
                 </div>
                 <div>
                   <input
@@ -162,8 +163,9 @@ const SignUpForm = () => {
                   />
                   {emailError ?
                       <span className="label-text-alt text-red-500">{emailError}</span>
-                      : ''}
+                      : <div> &nbsp;</div>}
                 </div>
+                <div>
                 <input
                     type="text"
                     name="password"
@@ -175,8 +177,10 @@ const SignUpForm = () => {
                     onInput={() => setPasswordError('')}
                 />
                 {passwordError ?
-                    <span className="label-text-alt text-red-500">{passwordError}</span>
-                    : ''}
+                    <span className="label-text-alt text-red-500 ">{passwordError}</span>
+                    : <div> &nbsp;</div>}
+                </div>
+                <div>
                 <input
                     type="Password"
                     name="ConfPassword"
@@ -185,7 +189,10 @@ const SignUpForm = () => {
                     className="input input-bordered border-[#359286] w-full text-black placeholder:text-black/70"
                     onInput={() => setpasswordMatch('')}
                 />
-                <span className="label-text-alt text-red-500">{passwordMatch}</span>
+                  {passwordMatch ?
+                      <span className="label-text-alt text-red-500">{passwordMatch}</span>
+                      :  <div> &nbsp;</div>}
+                </div>
 
                 <div className="flex flex-col md:flex-row gap-2 md:gap-4 justify-center items-center">
                   <button type="submit"
