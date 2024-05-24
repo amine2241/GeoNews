@@ -8,6 +8,7 @@ import com.example.server.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Controller;
@@ -22,10 +23,18 @@ public class UserController {
     UserService userService;
 
     @PostMapping(path="/registration")
-    public @ResponseBody String addNewUser (@Valid  @RequestBody RegisterDto registerDto){
+    public @ResponseBody ResponseEntity  addNewUser (@Valid  @RequestBody RegisterDto registerDto){
         System.out.println("hello there partner ");
-        userService.addUser(registerDto);
-        return "user registered successfully";
+        if(userService.UsernameUnique(registerDto)){
+            userService.addUser(registerDto);
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body("User registered successfully");
+        }else {
+            return ResponseEntity
+                    .status(HttpStatus.FORBIDDEN)
+                    .body("Username already exists");
+        }
     }
     @PostMapping(path="/login")
     public ResponseEntity<?> login (@RequestBody UserEntity user){

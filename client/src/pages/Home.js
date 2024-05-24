@@ -45,9 +45,9 @@ const Home = () => {
     return (
         <div >
                <Drawer authenticated = {authenticated} username = {username}></Drawer>
-  
-    
-        
+
+
+
         </div>
 
     )

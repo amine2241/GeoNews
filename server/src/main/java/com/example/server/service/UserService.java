@@ -71,6 +71,11 @@ public class UserService {
             return new ResponseEntity<String>("Username or Password are wrong ", HttpStatus.NOT_ACCEPTABLE);
         }
     }
+    public Boolean UsernameUnique(@Valid RegisterDto registerDto){
+        boolean state = userRepo.existsByUsername(registerDto.getUsername());
+        System.out.println(!state);
+        return !state;
+    }
 
     public UserEntity addUser(@Valid RegisterDto registerDto) {
         UserEntity user = new UserEntity();
