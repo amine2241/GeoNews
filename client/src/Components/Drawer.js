@@ -2,7 +2,8 @@ import {React, useEffect, useState} from 'react'
 import Navbar from '../Components/Navbar'
 import Map from '../Components/Map'
 import News from '../Components/News'
-const MyModal = ({visible, onClose}) => {
+import { SocialIcon } from 'react-social-icons'
+const MyModal = ({visible, onClose, newsTitle, newsLink}) => {
     console.log("this is the visibility "+ visible);
     if (!visible) return null;
     const handleOnClose = (e) => {
@@ -14,31 +15,19 @@ const MyModal = ({visible, onClose}) => {
       <div
         id="container"
         onClick={handleOnClose}
-        className="fixed inset-0 bg-black bg-opacity-10 backdrop-blur-sm flex justify-center items-center"
+        className="fixed inset-0 bg-black bg-opacity-10 backdrop-blur-sm flex justify-center items-center z-10"
       >
         <div className="bg-white p-4 rounded">
           <h1 className="font-semibold text-center text-xl text-gray-700">
-            Welcome back
+            Share News
           </h1>
-          <p className="text-center text-gray-700 mb-5">Sign in</p>
-  
-          <div className="flex flex-col">
-            <input
-              type="text"
-              className="border border-gray-700 p-2 rounded mb-5"
-              placeholder="email@example.com"
-            />
-            <input
-              type="text"
-              className="border border-gray-700 p-2 rounded mb-5"
-              placeholder="********"
-            />
-          </div>
-          <div className="text-center">
-            <button className="px-5 py-2 bg-gray-700 text-white rounded">
-              Sign in
-            </button>
-          </div>
+          <hr></hr>
+          <ul className='flex items-center justify-center  px-0'>
+          <SocialIcon network="twitter"  className=' mx-1.5' href={"https://twitter.com/intent/tweet?text=" + newsTitle + "&url=" + newsLink} target='blank'/>
+          <SocialIcon network="facebook" className=' mx-1.5'  href={"https://www.facebook.com/sharer/sharer.php?u="+newsLink+ "&quote=" + newsTitle} target='blank' />
+          <SocialIcon network="instagram"   href={"https://www.instagram.com/arany_76"} className=' mx-1.5' target='blank'/>
+          <SocialIcon network="linkedin" href={"https://www.linkedin.com/feed/?shareActive=true&text="+ newsTitle + " " + newsLink} className=' mx-1.5' target='blank'/>
+      </ul>
         </div>
       </div>
     );
@@ -49,6 +38,8 @@ const Drawer = (props) => {
     //Reset sidebar Configuration-------------------------------------------------------------------------
     const [clicked, setClicked] = useState(true);
     const [showText, setshowText] = useState(false);
+    const [newsLink, setNewsLink] = useState("");
+    const [newsTitle, setNewsTitle] = useState("");
     const clickState =(state)=>{
         setClicked(state);
     }
@@ -89,9 +80,13 @@ const Drawer = (props) => {
     }
 
     const [ElModal, setElModal] = useState(false);
-    const showmod = (cds) =>{
+    const showmod = (cds,newsLink, newsTitle) =>{
         setElModal(cds)
-        console.log("pop up"+ ElModal);
+        setNewsLink(newsLink);
+        console.log("this is the link "+ newsLink);
+        setNewsTitle(newsTitle);
+    
+
     }
 
     //Return------------------------------------------------------------------------------------
@@ -106,7 +101,7 @@ const Drawer = (props) => {
               <div className="sticky" onClick={()=>setshowText(true)}>
                   <Map clickState={clickState} cordsMap={cords}></Map>
               </div>
-              <MyModal onClose={() => setElModal(false)} visible={ElModal}/>
+              <MyModal onClose={() => setElModal(false)} visible={ElModal} newsLink={newsLink} newsTitle={newsTitle}/>
           </div>
           <div  className="drawer-side top-16 z-2 " /*onClick={()=>setClicked(false)}*/>
               <div id="cheese" className="mapdiv" onClick={()=>getOut()}></div>

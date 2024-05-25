@@ -19,8 +19,8 @@ import share from "../images/share_logo.png";
         setcheck(false)
         console.log("i started fetching" );
 
-        const url = 'https://api.worldnewsapi.com/search-news?source-countries=us';
-        //const url = 'https://api.worldnewsapi.com/search-news?location-filter='+cords+',75&latest-publish-date='+dateTo+'&earliest-publish-date='+dateFrom;
+        // const url = 'https://api.worldnewsapi.com/search-news?source-countries=us';
+        const url = 'https://api.worldnewsapi.com/search-news?location-filter='+cords+',75&latest-publish-date='+dateTo+'&earliest-publish-date='+dateFrom;
         const apiKey = 'f4b49d26f0f44957a794614a95f66a04';
         console.log(url);
 
@@ -83,12 +83,13 @@ import share from "../images/share_logo.png";
                                                 <img src={url} alt="url btn" width="20" height="30"
                                                      className="float-left cursor-pointer"/>
                                             </a>
-                                            {/* <a className="twitter"
-                                               href={"https://twitter.com/intent/tweet?text=" + news['title'] + "&url=" + news['url']}
-                                               target="blank" title="twitter">
+                                            <a className="twitter"
+                                              onClick={() => showmod(true,news['url'],news['title'])
+                                              }
+                                             >
                                                 <img src={share} alt="share btn" width="20" height="20"
                                                      className="float-right cursor-pointer"/>
-                                            </a> */}        <button className="bg-blue-500 p-2 rounded text-white" onClick={() => showmod(true)}>Open</button>
+                                            </a>     
                                         </td>
                                     </tr>
                                 </div>
