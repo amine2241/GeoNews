@@ -125,7 +125,7 @@ import Cookies from "js-cookie";
                                                      className="float-left cursor-pointer"/>
                                             </a>
                                             <div className="float-right cursor-pointer ">
-                                            <a className="twitter"
+                                            <a className="twitter pr-4"
                                               onClick={() => props.showmod(true,news['url'],news['title'])
                                               }
                                              >
