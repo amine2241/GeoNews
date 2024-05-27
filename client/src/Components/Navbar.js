@@ -46,7 +46,7 @@ export default function Navbar(props) {
     return (
         <div className="navbar navbar-expand-lg navbar-dark bg-base-100">
             <div className="navbar-start">
-            <Link to='/'><img src={geo_logo} alt="geonews logo" className='w-28 h-12 ml-2'/> </Link>
+            <Link to='/'><img src={geo_logo} alt="geonews logo" className='w-45 h-12 ml-2'/> </Link>
             </div>
             {showOptions && (
                 <form>
