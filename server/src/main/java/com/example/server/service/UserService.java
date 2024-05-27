@@ -2,8 +2,10 @@ package com.example.server.service;
 
 import com.example.server.dto.AuthResponseDTO;
 import com.example.server.dto.RegisterDto;
+import com.example.server.entities.NewsEntity;
 import com.example.server.entities.Role;
 import com.example.server.entities.UserEntity;
+import com.example.server.repositories.NewsRepo;
 import com.example.server.repositories.RoleRepository;
 import com.example.server.repositories.UserRepo;
 import com.example.server.security.JWTGenerator;
@@ -16,6 +18,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,12 +26,15 @@ import org.springframework.web.server.ResponseStatusException;
 
 
 import java.util.Collections;
+import java.util.List;
 
 @Service
 
 public class UserService {
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private NewsRepo newsRepo;
     @Autowired
     private RoleRepository roleRepository;
     @Autowired
@@ -94,6 +100,20 @@ public class UserService {
         String username = jwtGenerator.getUsernameFromJwt(token);
         System.out.println(username);
         return username;
+    }
+
+    public List<NewsEntity> getListNews(String username) {
+        UserEntity user = userRepo.findByUsername(username).orElseThrow(()->new UsernameNotFoundException("username not found"));
+        List<NewsEntity> listNews = user.getNewsPinned();
+        return listNews;
+    }
+
+    public void RemoveNewsFromList(String title,String username) {
+        System.out.println("usercontroller");
+        UserEntity user = userRepo.findByUsername(username).orElseThrow(()->new UsernameNotFoundException("username not found"));
+        NewsEntity news = newsRepo.findByTitle(title).orElseThrow(()->new UsernameNotFoundException("Title not found"));
+        user.getNewsPinned().remove(news);
+        newsRepo.save(news);
     }
 
 

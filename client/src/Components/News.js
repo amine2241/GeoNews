@@ -6,7 +6,6 @@ import url from "../images/link_logo.png";
 import share from "../images/share_logo.png";
 import pinNo from "../images/pinned_no.png";
 import pinYes from "../images/pinned_yes.png";
-import moment from "moment/moment";
 import axios from "axios";
 import Cookies from "js-cookie";
 
@@ -17,12 +16,14 @@ import Cookies from "js-cookie";
     const [newsJSON,setnewsJSON]= useState([])
     const [showLoad,setshowLoad]= useState(false)
     const [check,setcheck]= useState(true)
+    const [Listnews,setListnews]= useState([])
 
     const [formData, setFormData] = useState({
         title: '',
         url : '',
         pic: '',
         date : '',
+        token:'',
     });
 
     //API Fetch Request------------------------------------------------------------------------------------
@@ -31,8 +32,8 @@ import Cookies from "js-cookie";
         setcheck(false)
         console.log("i started fetching" );
 
-        // const url = 'https://api.worldnewsapi.com/search-news?source-countries=us';
-        const url = 'https://api.worldnewsapi.com/search-news?location-filter='+props.cords+',75&latest-publish-date='+props.dateTo+'&earliest-publish-date='+props.dateFrom;
+         const url = 'https://api.worldnewsapi.com/search-news?source-countries=us';
+        // const url = 'https://api.worldnewsapi.com/search-news?location-filter='+props.cords+',75&latest-publish-date='+props.dateTo+'&earliest-publish-date='+props.dateFrom;
         const apiKey = 'f4b49d26f0f44957a794614a95f66a04';
         console.log(url);
 
@@ -60,14 +61,45 @@ import Cookies from "js-cookie";
             if (props.showText !== props.showText.current) {
                 setcheck(true)
             }
+            if(props.authenticated){
+                getPinnedNews()
+            }
         },
         [props.showText]
     )
 
+
+     const getPinnedNews = ()=>{
+         const  token= Cookies.get("token");
+         axios
+             .get("http://localhost:9000/user/pinnednews",{
+                 headers: { token:token }
+             } )
+             .then(function (response) {
+                 console.log(response);
+                 setListnews(response.data);
+             });
+     }
+
+     const CheckIfPinned = (title)=>{
+         var exists=false
+         Listnews.map(news => {
+             if(title===news['title']){
+                 exists=true
+             }
+         })
+         if(exists){
+             return pinYes
+         }else {
+             return pinNo
+         }
+     }
+
     const PinNews = (e,title,url,image,date) => {
-        console.log("pin")
+        const token = Cookies.get('token')
 
         if(e.target.src.includes(pinNo)){
+            console.log("pin")
             e.target.src=pinYes
 
             formData.title=title
@@ -75,12 +107,10 @@ import Cookies from "js-cookie";
             formData.pic=image
             formData.date=date
 
-            const token = Cookies.get('token')
-
             axios.post('http://localhost:9000/news/pin', formData, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer '+ token
+                     token:token
                 }
             })
                 .then(function (response) {
@@ -90,7 +120,22 @@ import Cookies from "js-cookie";
             })
 
         } else{
+            console.log("unpin")
             e.target.src=pinNo
+
+            formData.title=title
+
+            axios.post('http://localhost:9000/user/unpin', formData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    token:token
+                }
+            })
+                .then(function (response) {
+                    console.log(response);
+                }).catch(function (error) {
+                console.log(error);
+            })
         }
     };
 
@@ -98,6 +143,7 @@ import Cookies from "js-cookie";
     return (
         <div>
             {console.log(newsJSON)}
+            {console.log(Listnews)}
             <table className="menu p-4 w-80  bg-base-200 min-h-screen ">
                 <tr className="border-b-2 border-black">
                     <th className="pb-2"><img src={newslogo} alt="news logo" width="30" height="30"/></th>
@@ -133,7 +179,7 @@ import Cookies from "js-cookie";
                                                      className="float-left cursor-pointer"/>
                                             </a>  
                                                 {props.authenticated &&(
-                                                    <input type="image" name="submit" src={pinNo} alt="pin btn" width="20" height="20"
+                                                    <input type="image" name="submit" src={CheckIfPinned(news['title'])} alt="pin btn" width="20" height="20"
                                                          className="float-right cursor-pointer"
                                                          onClick={(e) => PinNews(e, news['title'], news['url'], news['image'], news['publish_date'])}/>
                                                 )}

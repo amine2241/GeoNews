@@ -1,8 +1,5 @@
 import {React, useEffect, useState} from 'react'
-import Navbar from '../Components/Navbar'
-import Map from '../Components/Map'
 import Drawer from '../Components/Drawer'
-import { preventDefault } from 'leaflet/src/dom/DomEvent'
 import Cookies from 'js-cookie';
 import axios from 'axios';
 
@@ -30,7 +27,7 @@ const Home = () => {
           console.log(response);
           setUsername(response.data);
         });
-      }
+    }
     const checkIfauthenticated=()=>{
         const token= Cookies.get("token");
         if(token){
