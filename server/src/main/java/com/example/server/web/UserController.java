@@ -1,8 +1,10 @@
 package com.example.server.web;
 
 
+import com.example.server.dto.AddNewsDto;
 import com.example.server.dto.AuthResponseDTO;
 import com.example.server.dto.RegisterDto;
+import com.example.server.entities.NewsEntity;
 import com.example.server.entities.UserEntity;
 import com.example.server.service.UserService;
 import jakarta.validation.Valid;
@@ -11,8 +13,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -42,10 +47,29 @@ public class UserController {
 
     }
     @GetMapping(path="/details")
-   @ResponseBody public String getUserDetails (@RequestHeader("token")String token){
+    @ResponseBody public String getUserDetails (@RequestHeader("token")String token){
         System.out.println(token);
         String username= userService.getUsername(token);
-    return username;
+        return username;
+    }
+    @GetMapping(path="/pinnednews")
+    @ResponseBody public ResponseEntity getPinnedNews (@RequestHeader("token")String token){
+        System.out.println(token);
+        String username= userService.getUsername(token);
+        List<NewsEntity> listNews = userService.getListNews(username);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(listNews);
+    }
+    @PostMapping(path="/unpin")
+    public @ResponseBody ResponseEntity UnpinNews (@Valid @RequestBody AddNewsDto addnewsdto,@RequestHeader("token")String token){
+        System.out.println("news unpin");
+        System.out.println(token);
+        String username= userService.getUsername(token);
+        userService.RemoveNewsFromList(addnewsdto.getTitle(),username);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(addnewsdto);
     }
 
 

@@ -10,4 +10,5 @@ import java.util.Optional;
 
 public interface NewsRepo extends JpaRepository<NewsEntity,Long> {
     Optional<NewsEntity> findByTitle(String title);
+    Boolean existsByTitle(String title);
 }
