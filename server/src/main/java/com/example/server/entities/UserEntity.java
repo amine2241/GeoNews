@@ -1,9 +1,6 @@
 package com.example.server.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -23,8 +20,14 @@ public class UserEntity {
     private String username;
     private String  email;
     private String password;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name= "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "userId"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName ="id" ))
     private List<Role> roles  = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(name= "user_pinned_news", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "userId"),
+            inverseJoinColumns = @JoinColumn(name = "news_id", referencedColumnName ="newsId" ))
+    private List<NewsEntity> newsPinned = new ArrayList<>() ;
 }
