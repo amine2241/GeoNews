@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import arrow from "../images/arrow_logo.png";
+import geo_logo from "../images/GeoNews-logo.png";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import "react-datepicker/dist/react-datepicker.css";
@@ -45,7 +46,7 @@ export default function Navbar(props) {
     return (
         <div className="navbar navbar-expand-lg navbar-dark bg-base-100">
             <div className="navbar-start">
-                <Link to='/' className="btn btn-ghost text-xl" style={{color: "black", fontWeight: "bold"}}>GeoNews</Link>
+            <Link to='/'><img src={geo_logo} alt="geonews logo" className='w-28 h-12 ml-2'/> </Link>
             </div>
             {showOptions && (
                 <form>

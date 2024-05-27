@@ -100,4 +100,4 @@ const LogInForm = () => {
     )
 }
 
-export default LogInForm
+export default LogInForm;
