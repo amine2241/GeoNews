@@ -1,21 +1,23 @@
 package com.example.server.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.Data;
+
 
 @Data
 public class RegisterDto {
-    @NotEmpty(message = "FirstName is required")
+    @NotEmpty(message = "First name is required!")
+    @Pattern(regexp="^[A-Za-z]*$",message = "Use alphabet characters only!")
     private String firstName;
-    @NotEmpty(message = "LastName is required")
+    @Pattern(regexp="^[A-Za-z]*$",message = "Use alphabet characters only!")
+    @NotEmpty(message = "Last name is required!")
     private String  lastName;
-    @NotEmpty(message = "Username is required")
+    @NotEmpty(message = "Username is required!")
     private String username;
-    @NotEmpty(message = "Email is required")
+    @NotEmpty(message = "Email is required!")
+    @Email(message = "Please respect the email format!")
     private String  email;
-    @NotEmpty(message = "Password is required")
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{5,}$" ,message = "Password must be at least: 5 Chars, 1 Special Char, 1 Uppercase Letter, 1 Number")
     private String password;
 
 }

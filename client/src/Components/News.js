@@ -4,14 +4,26 @@ import newslogo from "../images/news_logo.png";
 import refresh from "../images/refresh_logo.png";
 import url from "../images/link_logo.png";
 import share from "../images/share_logo.png";
+import pinNo from "../images/pinned_no.png";
+import pinYes from "../images/pinned_yes.png";
+import moment from "moment/moment";
+import axios from "axios";
+import Cookies from "js-cookie";
 
- const News = ({showText,cords,dateFrom,dateTo,showmod})=>{
+ const News = (props)=>{
     const [showModal, setShowModal] = useState(false);
 
     //Initiate Variables------------------------------------------------------------------------------------
     const [newsJSON,setnewsJSON]= useState([])
     const [showLoad,setshowLoad]= useState(false)
     const [check,setcheck]= useState(true)
+
+    const [formData, setFormData] = useState({
+        title: '',
+        url : '',
+        pic: '',
+        date : '',
+    });
 
     //API Fetch Request------------------------------------------------------------------------------------
     function fetchNews(){
@@ -20,7 +32,7 @@ import share from "../images/share_logo.png";
         console.log("i started fetching" );
 
         // const url = 'https://api.worldnewsapi.com/search-news?source-countries=us';
-        const url = 'https://api.worldnewsapi.com/search-news?location-filter='+cords+',75&latest-publish-date='+dateTo+'&earliest-publish-date='+dateFrom;
+        const url = 'https://api.worldnewsapi.com/search-news?location-filter='+props.cords+',75&latest-publish-date='+props.dateTo+'&earliest-publish-date='+props.dateFrom;
         const apiKey = 'f4b49d26f0f44957a794614a95f66a04';
         console.log(url);
 
@@ -45,16 +57,45 @@ import share from "../images/share_logo.png";
     //Show initial text if the sidebar is reset-----------------------------------------------------------------------
     useEffect(
         function onChange() {
-            if (showText !== showText.current) {
+            if (props.showText !== props.showText.current) {
                 setcheck(true)
             }
         },
-        [showText]
+        [props.showText]
     )
+
+    const PinNews = (e,title,url,image,date) => {
+        console.log("pin")
+
+        if(e.target.src.includes(pinNo)){
+            e.target.src=pinYes
+
+            formData.title=title
+            formData.url=url
+            formData.pic=image
+            formData.date=date
+
+            const token = Cookies.get('token')
+
+            axios.post('http://localhost:9000/news/pin', formData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer '+ token
+                }
+            })
+                .then(function (response) {
+                    console.log(response);
+                }).catch(function (error) {
+                    console.log(error);
+            })
+
+        } else{
+            e.target.src=pinNo
+        }
+    };
 
     //Return------------------------------------------------------------------------------------
     return (
-
         <div>
             {console.log(newsJSON)}
             <table className="menu p-4 w-80  bg-base-200 min-h-screen ">
@@ -83,13 +124,21 @@ import share from "../images/share_logo.png";
                                                 <img src={url} alt="url btn" width="20" height="30"
                                                      className="float-left cursor-pointer"/>
                                             </a>
+                                            <div className="float-right cursor-pointer ">
                                             <a className="twitter"
-                                              onClick={() => showmod(true,news['url'],news['title'])
+                                              onClick={() => props.showmod(true,news['url'],news['title'])
                                               }
                                              >
                                                 <img src={share} alt="share btn" width="20" height="20"
-                                                     className="float-right cursor-pointer"/>
-                                            </a>     
+                                                     className="float-left cursor-pointer"/>
+                                            </a>  
+                                                {props.authenticated &&(
+                                                    <input type="image" name="submit" src={pinNo} alt="pin btn" width="20" height="20"
+                                                         className="float-right cursor-pointer"
+                                                         onClick={(e) => PinNews(e, news['title'], news['url'], news['image'], news['publish_date'])}/>
+                                                )}
+                                            </div>
+
                                         </td>
                                     </tr>
                                 </div>

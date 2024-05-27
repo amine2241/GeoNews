@@ -106,7 +106,7 @@ const Drawer = (props) => {
           <div  className="drawer-side top-16 z-2 " /*onClick={()=>setClicked(false)}*/>
               <div id="cheese" className="mapdiv" onClick={()=>getOut()}></div>
               <div id="bar">
-                  <News  cords={Elcords} dateFrom={EldateFrom} dateTo={EldateTo} showText={showText} showmod={showmod} />
+                  <News  cords={Elcords} dateFrom={EldateFrom} dateTo={EldateTo} showText={showText} authenticated = {props.authenticated}  showmod={showmod}></News>
               </div>
           </div>
       </div>
