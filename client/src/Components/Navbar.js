@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import moment from "moment";
 import "react-datepicker/dist/react-datepicker.css";
 import Cookies from 'js-cookie';
-import axios from 'axios';
 import vault from "../images/vault_boy.png"
 
 export default function Navbar(props) {
@@ -39,7 +38,7 @@ export default function Navbar(props) {
 
     function Logout(){
       Cookies.remove('token');
-      window.location.reload()
+      window.location.href="http://localhost:3000/"
     }
 
     //Return------------------------------------------------------------------------------------
@@ -84,6 +83,8 @@ export default function Navbar(props) {
                         </div>
                         <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
                             <li className='border-b-2 border-black font-bold pl-3'>{props.username}</li>
+                            <li className="text"><a onClick={()=>window.location.href="/pinnednews"}>Pinned News</a></li>
+                            <li className="text"><a >Add News</a></li>
                             <li className="text-red-600"><a onClick={Logout}>Logout</a></li>
                         </ul>
                     </div>

@@ -142,13 +142,13 @@ import Cookies from "js-cookie";
     //Return------------------------------------------------------------------------------------
     return (
         <div>
-            {console.log(newsJSON)}
-            {console.log(Listnews)}
             <table className="menu p-4 w-80  bg-base-200 min-h-screen ">
                 <tr className="border-b-2 border-black">
                     <th className="pb-2"><img src={newslogo} alt="news logo" width="30" height="30"/></th>
                     <th className="pl-3">NEWS ARTICLES </th>
+                    {!check && (
                     <th className="pl-20"><img className="cursor-pointer" src={refresh} alt="refresh btn" width="30" height="30" onClick={fetchNews}/></th>
+                        )}
                 </tr>
                 {!showLoad && !check && (
                     newsJSON.length !== 0 ?
@@ -198,9 +198,16 @@ import Cookies from "js-cookie";
                 )}
 
                 {check && !showLoad && (
-                    <span className=" text-xs pt-44 text-gray-500">
-                        Click the Refresh button to the top right to generate news articles!<br/> <br/>
-                        You can also change the dates to generate articles belonging to that time period!
+                    <span className=" text-xs pt-32 text-gray-500 text-center">
+                        Click the "Generate" button below to generate news articles pertaining to the time period selected!<br/> <br/>
+                        <button className="btn bg-black text-white btn-block max-w-[100px]" onClick={fetchNews}>Generate</button>
+
+                        {props.authenticated && (<div><br/>
+                                You can also add your own news related to this location!<br/> <br/>
+                                <button className="btn bg-black text-white btn-block max-w-[110px]">Add news</button>
+                            </div>
+                        )}
+
                     </span>
                 )}
 
@@ -211,5 +218,5 @@ import Cookies from "js-cookie";
             </table>
         </div>
     )
-}
+ }
 export default News;

@@ -8,6 +8,7 @@ import SignUp from './pages/SignUp';
 import LogIn from './pages/LogIn';
 import Home from './pages/Home';
 import Cookies from 'js-cookie';
+import PinnedNews from "./pages/PinnedNews";
 
 function App() {
 const Authenticated = Cookies.get("token")
@@ -20,6 +21,7 @@ console.log("this is my token "+ Authenticated);
         <Route path="/" element={<Home/>} />
           <Route path="/SignUp" element={<SignUp/>} />
           <Route path="/LogIn" element={Authenticated ?<Home/>:  <LogIn/> }/>
+          <Route path="/PinnedNews" element={<PinnedNews/>} />
       </Routes>
     </BrowserRouter>
 

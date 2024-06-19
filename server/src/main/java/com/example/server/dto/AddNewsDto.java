@@ -10,4 +10,5 @@ public class AddNewsDto {
     private String url;
     private String pic;
     private String date;
+    private String latlng;
 }
