@@ -4,12 +4,10 @@ import Map from '../Components/Map'
 import News from '../Components/News'
 import { SocialIcon } from 'react-social-icons'
 const MyModal = ({visible, onClose, newsTitle, newsLink}) => {
-    console.log("this is the visibility "+ visible);
     if (!visible) return null;
     const handleOnClose = (e) => {
         if (e.target.id === "container") onClose();
       };
-  
   
     return (
       <div

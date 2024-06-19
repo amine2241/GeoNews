@@ -8,6 +8,8 @@ import pinNo from "../images/pinned_no.png";
 import pinYes from "../images/pinned_yes.png";
 import axios from "axios";
 import Cookies from "js-cookie";
+import url_red from "../images/link_logo_red.png";
+import share_red from "../images/share_logo_red.png";
 
  const News = (props)=>{
     const [showModal, setShowModal] = useState(false);
@@ -16,9 +18,11 @@ import Cookies from "js-cookie";
     const [newsJSON,setnewsJSON]= useState([])
     const [showLoad,setshowLoad]= useState(false)
     const [check,setcheck]= useState(true)
-    const [Listnews,setListnews]= useState([])
+    const [listPinnedNews,setlistPinnedNews]= useState([])
+     const [ListCreatednews,setListCreatednews]= useState([])
 
-    const [formData, setFormData] = useState({
+
+     const [formData, setFormData] = useState({
         title: '',
         url : '',
         pic: '',
@@ -26,14 +30,40 @@ import Cookies from "js-cookie";
         token:'',
     });
 
+     const [formCreatedNewsData, setFormCreatedNewsData] = useState({
+         lat: '',
+         lng : '',
+     });
+
     //API Fetch Request------------------------------------------------------------------------------------
     function fetchNews(){
         setshowLoad(true)
         setcheck(false)
         console.log("i started fetching" );
 
-         const url = 'https://api.worldnewsapi.com/search-news?source-countries=us';
-        // const url = 'https://api.worldnewsapi.com/search-news?location-filter='+props.cords+',75&latest-publish-date='+props.dateTo+'&earliest-publish-date='+props.dateFrom;
+        //USER CREATED NEWS:----------------------------------------------------------------------------------------------------------
+
+        formCreatedNewsData.lat=props.cords.split(",")[0];
+        formCreatedNewsData.lng=props.cords.split(",")[1];
+        console.log(props.cords)
+        console.log("the lat : "+formCreatedNewsData.lat+"  and the lng : "+ formCreatedNewsData.lng)
+        axios
+            .post("http://localhost:9000/news/creatednews",formCreatedNewsData,{
+                "Content-Type": "application/json",
+            } )
+            .then(function (response) {
+                console.log(response);
+                setListCreatednews(response.data);
+            }).catch(function (error) {
+            console.log(error);
+        });
+        setshowLoad(false)
+
+        //---------------------------------------------------------------------------------------------------------
+
+        /*
+        // const url = 'https://api.worldnewsapi.com/search-news?source-countries=us';
+        const url = 'https://api.worldnewsapi.com/search-news?location-filter='+props.cords+',75&latest-publish-date='+props.dateTo+'&earliest-publish-date='+props.dateFrom;
         const apiKey = 'f4b49d26f0f44957a794614a95f66a04';
         console.log(url);
 
@@ -52,12 +82,16 @@ import Cookies from "js-cookie";
         })
             .then(data => setnewsJSON(data.news))
             .then(function(data){ setshowLoad(false)})
-            .catch(error => console.error('There was a problem with the fetch operation:', error))
+            .catch(error => console.error('There was a problem with the fetch operation:', error))*/
     }
 
     //Show initial text if the sidebar is reset-----------------------------------------------------------------------
     useEffect(
         function onChange() {
+            if(formCreatedNewsData.lat+","+formCreatedNewsData.lng !==props.cords && props.cords !== undefined){
+                formCreatedNewsData.lat=props.cords.split(",")[0];
+                formCreatedNewsData.lng=props.cords.split(",")[1];
+            }
             if (props.showText !== props.showText.current) {
                 setcheck(true)
             }
@@ -77,13 +111,13 @@ import Cookies from "js-cookie";
              } )
              .then(function (response) {
                  console.log(response);
-                 setListnews(response.data);
+                 setlistPinnedNews(response.data);
              });
      }
 
      const CheckIfPinned = (title)=>{
          var exists=false
-         Listnews.map(news => {
+         listPinnedNews.map(news => {
              if(title===news['title']){
                  exists=true
              }
@@ -151,38 +185,86 @@ import Cookies from "js-cookie";
                         )}
                 </tr>
                 {!showLoad && !check && (
+                    ListCreatednews.length !== 0 ? ListCreatednews.map(news => {
+                    return (
+                        <div className="pt-2 bg-red-400">
+                            <tr>
+                                <td className="font-semibold">{news['title']}</td>
+                            </tr>
+                            <tr>
+                                <td><img src={news['pic']} alt="article pic" width="270" height="70"/></td>
+                            </tr>
+                            <tr>
+                                <td className="font-semibold pt-2">publish date: {news['date']}</td>
+                            </tr>
+                            <tr>
+                                <td className="font-semibold pt-2">created by:</td>
+                            </tr>
+                            <tr className="border-b-2 border-black ">
+                                <td className="pt-2 pb-2">
+                                    <a href={news['url']} target="_blank" rel="noreferrer">
+                                        <img src={url_red} alt="url btn" width="20" height="30"
+                                             className="float-left cursor-pointer"/>
+                                    </a>
+                                    <div className="float-right cursor-pointer ">
+                                        <a className="twitter pr-4"
+                                           onClick={() => props.showmod(true, news['url'], news['title'])
+                                           }
+                                        >
+                                            <img src={share_red} alt="share btn" width="20" height="20"
+                                                 className="float-left cursor-pointer"/>
+                                        </a>
+                                        {props.authenticated && (
+                                            <input type="image" name="submit" src={CheckIfPinned(news['title'])}
+                                                   alt="pin btn" width="20" height="20"
+                                                   className="float-right cursor-pointer"
+                                                   onClick={(e) => PinNews(e, news['title'], news['url'], news['image'], news['publish_date'])}/>
+                                        )}
+                                    </div>
+
+                                </td>
+                            </tr>
+                        </div>
+                    )
+                    }) : <div></div>
+                )}
+
+                {!showLoad && !check && (
                     newsJSON.length !== 0 ?
-                        newsJSON.map(news => {
-                            return (
-                                <div className="pt-2">
-                                    <tr>
-                                        <td className="font-semibold">{news['title']}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><img src={news['image']} alt="article pic" width="270" height="70"/></td>
-                                    </tr>
-                                    <tr>
-                                        <td className="font-semibold pt-2">publish date: {news['publish_date']}</td>
-                                    </tr>
-                                    <tr className="border-b-2 border-black ">
-                                        <td className="pt-2 pb-2">
-                                            <a href={news['url']} target="_blank" rel="noreferrer">
-                                                <img src={url} alt="url btn" width="20" height="30"
-                                                     className="float-left cursor-pointer"/>
-                                            </a>
-                                            <div className="float-right cursor-pointer ">
-                                            <a className="twitter pr-4"
-                                              onClick={() => props.showmod(true,news['url'],news['title'])
-                                              }
-                                             >
-                                                <img src={share} alt="share btn" width="20" height="20"
-                                                     className="float-left cursor-pointer"/>
-                                            </a>  
-                                                {props.authenticated &&(
-                                                    <input type="image" name="submit" src={CheckIfPinned(news['title'])} alt="pin btn" width="20" height="20"
-                                                         className="float-right cursor-pointer"
-                                                         onClick={(e) => PinNews(e, news['title'], news['url'], news['image'], news['publish_date'])}/>
-                                                )}
+                            newsJSON.map(news => {
+                                return (
+                                    <div className="pt-2">
+                                        <tr>
+                                            <td className="font-semibold">{news['title']}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><img src={news['image']} alt="article pic" width="270" height="70"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td className="font-semibold pt-2">publish date: {news['publish_date']}</td>
+                                        </tr>
+                                        <tr className="border-b-2 border-black ">
+                                            <td className="pt-2 pb-2">
+                                                <a href={news['url']} target="_blank" rel="noreferrer">
+                                                    <img src={url} alt="url btn" width="20" height="30"
+                                                         className="float-left cursor-pointer"/>
+                                                </a>
+                                                <div className="float-right cursor-pointer ">
+                                                    <a className="twitter pr-4"
+                                                       onClick={() => props.showmod(true, news['url'], news['title'])
+                                                       }
+                                                    >
+                                                        <img src={share} alt="share btn" width="20" height="20"
+                                                             className="float-left cursor-pointer"/>
+                                                    </a>
+                                                    {props.authenticated && (
+                                                        <input type="image" name="submit"
+                                                               src={CheckIfPinned(news['title'])} alt="pin btn"
+                                                               width="20" height="20"
+                                                               className="float-right cursor-pointer"
+                                                               onClick={(e) => PinNews(e, news['title'], news['url'], news['image'], news['publish_date'])}/>
+                                                    )}
                                             </div>
 
                                         </td>
