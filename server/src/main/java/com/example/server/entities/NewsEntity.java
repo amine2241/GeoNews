@@ -16,7 +16,12 @@ public class NewsEntity {
     private Long newsId;
     private String title;
     private String url;
+    @Lob
+    @Column(name="News_image")
+    private byte[] NewsImage;
     private String pic;
     private String date;
-    private String latlng;
+    private boolean createdbyuser;
+    private String lat;
+    private String lng;
 }

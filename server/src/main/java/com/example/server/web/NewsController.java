@@ -16,7 +16,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import com.example.server.repositories.UserRepo;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -43,6 +47,24 @@ public class NewsController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(addnewsdto);
+    }
+    @PostMapping(path="/add")
+    public @ResponseBody ResponseEntity AddNews (@Valid @RequestBody AddNewsDto addnewsdto,@RequestHeader("token")String token){
+        try {
+
+            byte[] name = Base64.getEncoder().encode(addnewsdto.getPic().getBytes());
+            byte[] decodedString = Base64.getDecoder().decode(new String(name).getBytes("UTF-8"));
+        }catch (UnsupportedEncodingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        String username= userService.getUsername(token);
+        System.out.println(token);
+        UserEntity user = userrepo.findByUsername(username).orElseThrow(()->new UsernameNotFoundException("username not found"));
+        newsService.addUserNews(addnewsdto,user);
+        return ResponseEntity
+                .status(HttpStatus.CREATED).body(addnewsdto);
     }
 
 

@@ -30,4 +30,8 @@ public class UserEntity {
     @JoinTable(name= "user_pinned_news", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "userId"),
             inverseJoinColumns = @JoinColumn(name = "news_id", referencedColumnName ="newsId" ))
     private List<NewsEntity> newsPinned = new ArrayList<>() ;
+    @ManyToMany
+    @JoinTable(name= "user_news", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "userId"),
+            inverseJoinColumns = @JoinColumn(name = "news_id", referencedColumnName ="newsId" ))
+    private List<NewsEntity> user_news = new ArrayList<>() ;
 }

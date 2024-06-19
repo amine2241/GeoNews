@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -33,6 +35,22 @@ public class NewsService {
             newsRepo.save(news);
         }
     }
+    public void addUserNews(@Valid AddNewsDto addnewsdto, UserEntity user){
+        NewsEntity news = new NewsEntity();
+            byte[] image = Base64.getEncoder().encode(addnewsdto.getPic().getBytes());
+            news.setTitle(addnewsdto.getTitle());
+            news.setUrl(addnewsdto.getUrl());
+            news.setNewsImage(image);
+            news.setDate(addnewsdto.getDate());
+            news.setCreatedbyuser(true);
+            news.setLat(addnewsdto.getLat());
+            news.setLng(addnewsdto.getLng());
+        System.out.println("new image");
+        System.out.println(news.getNewsImage());
+            user.getUser_news().add(news);
+            newsRepo.save(news);
+        }
+
 
 
 

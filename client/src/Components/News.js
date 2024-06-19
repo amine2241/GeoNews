@@ -204,7 +204,7 @@ import Cookies from "js-cookie";
 
                         {props.authenticated && (<div><br/>
                                 You can also add your own news related to this location!<br/> <br/>
-                                <button className="btn bg-black text-white btn-block max-w-[110px]">Add news</button>
+                                <button className="btn bg-black text-white btn-block max-w-[110px]" onClick={()=>window.location.href="/AddNews"}>Add news</button>
                             </div>
                         )}
 

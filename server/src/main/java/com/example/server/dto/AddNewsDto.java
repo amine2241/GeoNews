@@ -1,5 +1,6 @@
 package com.example.server.dto;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
@@ -10,5 +11,7 @@ public class AddNewsDto {
     private String url;
     private String pic;
     private String date;
-    private String latlng;
+    private String lat;
+    private String lng;
+
 }
