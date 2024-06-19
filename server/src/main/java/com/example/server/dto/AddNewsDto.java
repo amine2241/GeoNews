@@ -11,7 +11,13 @@ public class AddNewsDto {
     private String url;
     private String pic;
     private String date;
+<<<<<<< HEAD
     private String lat;
     private String lng;
 
+=======
+    private Boolean createdbyuser;
+    private Float lat;
+    private Float lng;
+>>>>>>> tahir_branch
 }

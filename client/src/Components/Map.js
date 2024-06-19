@@ -49,6 +49,7 @@ export default function Map({clickState,cordsMap}){
                 }
 
                 console.log(e.latlng);
+                console.log(e.latlng.lat+","+e.latlng.lng);
                 setshowNews(false);
                 var mapdata = L.geoJSON(mapdata).addTo(map);
                 marker.current = new L.marker(

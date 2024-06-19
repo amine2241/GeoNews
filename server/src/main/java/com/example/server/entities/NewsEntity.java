@@ -21,7 +21,7 @@ public class NewsEntity {
     private byte[] NewsImage;
     private String pic;
     private String date;
-    private boolean createdbyuser;
-    private String lat;
-    private String lng;
+    private Boolean createdbyuser;
+    private Float lat;
+    private Float lng;
 }
