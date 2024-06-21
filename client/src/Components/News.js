@@ -10,9 +10,12 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import url_red from "../images/link_logo_red.png";
 import share_red from "../images/share_logo_red.png";
+import { Navigate, useNavigate } from "react-router-dom";
 
  const News = (props)=>{
     const [showModal, setShowModal] = useState(false);
+    const navigate = useNavigate();
+    
 
     //Initiate Variables------------------------------------------------------------------------------------
     const [newsJSON,setnewsJSON]= useState([])
@@ -20,6 +23,8 @@ import share_red from "../images/share_logo_red.png";
     const [check,setcheck]= useState(true)
     const [listPinnedNews,setlistPinnedNews]= useState([])
      const [ListCreatednews,setListCreatednews]= useState([])
+
+   
 
 
      const [formData, setFormData] = useState({
@@ -34,6 +39,7 @@ import share_red from "../images/share_logo_red.png";
          lat: '',
          lng : '',
      });
+ 
 
     //API Fetch Request------------------------------------------------------------------------------------
     function fetchNews(){
@@ -286,7 +292,7 @@ import share_red from "../images/share_logo_red.png";
 
                         {props.authenticated && (<div><br/>
                                 You can also add your own news related to this location!<br/> <br/>
-                                <button className="btn bg-black text-white btn-block max-w-[110px]" onClick={()=>window.location.href="/AddNews"}>Add news</button>
+                                <button className="btn bg-black text-white btn-block max-w-[110px]" onClick={()=> navigate('/AddNews', { state: {coords :formCreatedNewsData } })}>Add news</button>
                             </div>
                         )}
 
