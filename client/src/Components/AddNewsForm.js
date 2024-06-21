@@ -67,7 +67,7 @@ console.log("hello2");
           })
               .then(function (response) {
                 console.log(response);
-                // redirect(); 
+                redirect();
                 })
               .catch(function (error) {
             console.log(error);
@@ -95,7 +95,7 @@ console.log("hello2");
       };
     
       const redirect =()=>{
-        window.location.href ='/login'
+        window.location.href ='/'
       }
     
       let color = 'bg-red-500'
@@ -174,7 +174,7 @@ console.log("hello2");
               <button type="submit"
                       onClick={handleSubmit}
                       className="btn green_bg text-white btn-block max-w-[200px] ">
-                Sign Up
+                Add
               </button>
             </div>
           </div>

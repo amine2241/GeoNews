@@ -2,6 +2,7 @@ package com.example.server.dto;
 
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.sql.Date;
@@ -14,7 +15,7 @@ public class AddNewsDto {
     private String url;
     @NotEmpty(message = "Picture  is required!")
     private String pic;
-    @NotEmpty(message = "Date  is required!")
+    @NotNull(message = "Date  is required!")
     private Date date;
     private String createdbyuser;
     private Float lat;

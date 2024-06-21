@@ -13,6 +13,8 @@ module.exports = {
       'silver': '#ecebff',
       'bubble-gum': '#ff77e9',
       'bermuda': '#78dcca',
+      'slight-red': '#fecaca',
+      'deep-red': '#a72f34',
     },
     extend: {},
   },

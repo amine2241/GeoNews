@@ -186,6 +186,12 @@ import { Navigate, useNavigate } from "react-router-dom";
         }
     };
 
+    const GoToAdd =()=>{
+        formCreatedNewsData.lat=props.cords.split(",")[0];
+        formCreatedNewsData.lng=props.cords.split(",")[1];
+        navigate('/AddNews', { state: {coords :formCreatedNewsData } })
+    }
+
     //Return------------------------------------------------------------------------------------
     return (
         <div>
@@ -200,7 +206,7 @@ import { Navigate, useNavigate } from "react-router-dom";
                 {!showLoad && !check && (
                     ListCreatednews.length !== 0 ? ListCreatednews.map(news => {
                     return (
-                        <div className="pt-2 bg-red-200 text-red-700">
+                        <div className="pt-2 bg-slight-red text-deep-red">
                             <tr>
                                 <td className="font-semibold">{news['title']}</td>
                             </tr>
@@ -231,7 +237,7 @@ import { Navigate, useNavigate } from "react-router-dom";
                                             <input type="image" name="submit" src={CheckIfPinned(news['title'])}
                                                    alt="pin btn" width="20" height="20"
                                                    className="float-right cursor-pointer"
-                                                   onClick={(e) => PinNews(e, news['title'], news['url'], news['pic'], news['date'])}/>
+                                                   onClick={(e) => PinNews(e, news['title'], news['url'], news['news_image'], news['date'])}/>
                                         )}
                                     </div>
 
@@ -300,12 +306,12 @@ import { Navigate, useNavigate } from "react-router-dom";
 
                         {props.authenticated && (<div><br/>
                                 You can also add your own news related to this location!<br/> <br/>
-                                <button className="btn bg-black text-white btn-block max-w-[110px]" onClick={()=> navigate('/AddNews', { state: {coords :formCreatedNewsData } })}>Add news</button>
+                                <button className="btn bg-black text-white btn-block max-w-[110px]" onClick={GoToAdd}>Add news</button>
                             </div>
                         )}
                         <br/> <br/>
 
-                        The <span className="text-red-400">Red News </span> are articles created by users.
+                        The <span className="text-deep-red">Red News </span> are articles created by users.
 
                     </span>
                     )}

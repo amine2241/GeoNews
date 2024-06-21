@@ -31,6 +31,8 @@ const AddNews = () => {
 
   return (
     <div>
+        {console.log("hahowa")}
+        {console.log(coords)}
       <Navbar username = {username} authenticated = {true}></Navbar>
   <AddNewsForm coords = {coords}></AddNewsForm>
   </div>
