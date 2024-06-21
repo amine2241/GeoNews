@@ -8,10 +8,13 @@ import java.sql.Date;
 
 @Data
 public class AddNewsDto {
-    @NotEmpty
+    @NotEmpty(message = "title name is required!")
     private String title;
+    @NotEmpty(message = "url  is required!")
     private String url;
+    @NotEmpty(message = "Picture  is required!")
     private String pic;
+    @NotEmpty(message = "Date  is required!")
     private Date date;
     private String createdbyuser;
     private Float lat;

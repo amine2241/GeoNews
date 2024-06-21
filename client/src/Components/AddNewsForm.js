@@ -4,16 +4,23 @@ import axios from 'axios';
 import Sign from "../images/signup_image.png"
 import Cookies from "js-cookie";
 
-const AddNewsForm = (props) => {
+const AddNewsForm = (coords) => {
+console.log("hello1");
+console.log(coords.coords.lat);
+console.log(coords.coords.lng);
+console.log("hello2");
     const [formData, setFormData] = useState({
         title: '',
         url: '',
         pic: '',
         date: '',
-        lat:31.521,
-        lng:-7.97868,
+        lat:coords.coords.lat, 
+        lng:coords.coords.lng,
       });
-    
+      const [titleError, setTitleError] = useState('');
+      const [urlError, setUrlError] = useState('');
+      const [picError, setPicError] = useState('');
+      const [dateError, setDateError] = useState('');
       const handleChange = (e) => {
         if(e.target.files){    
           const { name} = e.target; 
@@ -53,15 +60,6 @@ const AddNewsForm = (props) => {
       const handleSubmit = (event) => {
         // convertToBase64();
         console.log(formData);
-        
-      //   console.log("submitting");
-      //   setUnique('')
-      //   const passVal = document.getElementById('Password');
-      //   const confVal = document.getElementById('ConfPassword');
-    
-      //   if(passVal.value!==confVal.value){
-      //     setpasswordMatch('Passwords do not match!')
-      //   }else{
         const  token= Cookies.get("token");
     
           axios.post('http://localhost:9000/news/add', formData, {
@@ -71,36 +69,28 @@ const AddNewsForm = (props) => {
                 console.log(response);
                 // redirect(); 
                 })
-
-              // }).catch(function (error) {
-      //       console.log(error);
-      //       const input_errors = error.response.data.fieldErrors;
-      //       console.log(input_errors);
-      //       if(typeof error.response.data==="string"){
-      //         setUnique(error.response.data)
-      //       }
-      //       if(input_errors) {
-      //         input_errors.forEach(fieldError => {
-      //           if(fieldError.field === 'firstName'){
-      //             setFirstNameError(fieldError.message);
-      //           }
-      //           if(fieldError.field === 'lastName'){
-      //             setLastNameError(fieldError.message);
-      //           }
-      //           if(fieldError.field === 'username'){
-      //             setUsernameError(fieldError.message);
-      //           }
-      //           if(fieldError.field === 'email'){
-      //             setEmailError(fieldError.message);
-      //           }
-    
-      //           if(fieldError.field === 'password'){
-      //             setPasswordError(fieldError.message);
-      //           }
-      //         });
-      //       }
-      //     });
-      //     event.preventDefault();
+              .catch(function (error) {
+            console.log(error);
+            const input_errors = error.response.data.fieldErrors;
+            console.log(input_errors);
+            if(input_errors) {
+              input_errors.forEach(fieldError => {
+                if(fieldError.field === 'title'){
+                  setTitleError(fieldError.message);
+                }
+                if(fieldError.field === 'url'){
+                  setUrlError(fieldError.message);
+                }
+                if(fieldError.field === 'pic'){
+                  setPicError(fieldError.message);
+                }
+                if(fieldError.field === 'date'){
+                  setDateError(fieldError.message);
+                }
+              });
+            }
+          });
+          event.preventDefault();
       //   }
       };
     
@@ -126,34 +116,42 @@ const AddNewsForm = (props) => {
                   className="input input-bordered border-black w-full text-black placeholder:text-black/70"
                   value={formData.title}
                   onChange={handleChange}
-                  // onInput={() => emptyUNerrors()}
+                  onInput={() => setTitleError('')}
               />
-              {/* {UsernameError || Unique ?
-                  <span className="label-text-alt text-red-500">{UsernameError}{Unique}</span>
-                  : <div> &nbsp;</div>} */}
+              {titleError?
+                       <div className="label">
+                       <span className="label-text-alt text-red-500">{titleError}</span>
+                        </div>
+                  : <div> &nbsp;</div>}
             </div>
             <div>
               <input
-                  type="email"
+                  type="text"
                   name="url"
                   placeholder="Enter News Link"
                   className="input input-bordered border-black w-full text-black placeholder:text-black/70"
                   value={formData.url}
                   onChange={handleChange}
-                  // onInput={() => setEmailError('')}
+                  onInput={() => setUrlError('')}
               />
-              {/* {emailError ?
-                  <span className="label-text-alt text-red-500">{emailError}</span>
-                  : <div> &nbsp;</div>} */}
+              {urlError ?
+              <div className="label">
+           <span className="label-text-alt text-red-500">{urlError}</span>
+            </div>
+                
+                  : <div> &nbsp;</div>}
             </div>
             <div>
   <input className="file-input file-input-bordered w-full max-w-xs " type='file'accept='image/*'
   name = "pic"
   onChange={handleChange} 
+  onInput={() => setPicError('')}
    />
-  {/* {emailError ?
-                  <span className="label-text-alt text-red-500">{emailError}</span>
-                  : <div> &nbsp;</div>} */}
+  {picError ?
+                 <div className="label">
+                 <span className="label-text-alt text-red-500">{picError}</span>
+                  </div>
+                  : <div> &nbsp;</div>}
   </div>
   <div>
               <input
@@ -163,11 +161,13 @@ const AddNewsForm = (props) => {
                   className="input input-bordered border-black w-full text-black placeholder:text-black/70"
                   value={formData.date}
                   onChange={handleChange}
-                  // onInput={() => setEm)}
+                  onInput={() => setDateError('')}
               />
-              {/* {emailError ?
-                  <span className="label-text-alt text-red-500">{emailError}</span>
-                  : <div> &nbsp;</div>} */}
+              {dateError ?
+                       <div className="label">
+                       <span className="label-text-alt text-red-500">{dateError}</span>
+                        </div>
+                  : <div> &nbsp;</div>}
             </div>
 
             <div className="flex flex-col md:flex-row gap-2 md:gap-4 justify-center items-center">
