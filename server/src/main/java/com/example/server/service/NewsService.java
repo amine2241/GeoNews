@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
+import java.sql.Date;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
@@ -32,7 +33,6 @@ public class NewsService {
             news.setUrl(addnewsdto.getUrl());
             news.setPic(addnewsdto.getPic());
             news.setDate(addnewsdto.getDate());
-            news.setCreatedbyuser(false);
             news.setLat(addnewsdto.getLat());
             news.setLng(addnewsdto.getLng());
             user.getNewsPinned().add(news);
@@ -46,7 +46,7 @@ public class NewsService {
             news.setUrl(addnewsdto.getUrl());
             news.setNewsImage(image);
             news.setDate(addnewsdto.getDate());
-            news.setCreatedbyuser(true);
+            news.setCreatedby(user.getUsername());
             news.setLat(addnewsdto.getLat());
             news.setLng(addnewsdto.getLng());
         System.out.println("new image");
@@ -55,10 +55,10 @@ public class NewsService {
             newsRepo.save(news);
         }
 
-    public List<NewsEntity> getUserCreatedNews(Float lat,Float lng) {
+    public List<NewsEntity> getUserCreatedNews(Float lat, Float lng, Date DateFrom, Date DateTo) {
         Float lat1= lat-1; Float lat2 = lat+1;
         Float lng1= lng-1; Float lng2 = lng+1;
-        List<NewsEntity> listCreatedNews = newsRepo.findAllByLatBetweenAndLngBetween(lat1,lat2,lng1,lng2);
+        List<NewsEntity> listCreatedNews = newsRepo.findAllByLatBetweenAndLngBetweenAndDateBetween(lat1,lat2,lng1,lng2,DateFrom,DateTo);
         return listCreatedNews;
     }
 

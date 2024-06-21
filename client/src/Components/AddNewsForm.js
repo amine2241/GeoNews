@@ -10,8 +10,8 @@ const AddNewsForm = (props) => {
         url: '',
         pic: '',
         date: '',
-        lat:51.517748002020774, 
-        lng:-0.0975344078916951,
+        lat:31.521,
+        lng:-7.97868,
       });
     
       const handleChange = (e) => {

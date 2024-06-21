@@ -26,7 +26,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 
@@ -116,6 +118,15 @@ public class UserService {
         newsRepo.save(news);
     }
 
+/*
+    public static HashMap getWhoCreated(List<NewsEntity> news) {
+        HashMap<String,Long> lst = new HashMap<>();
+        for(NewsEntity n : news) {
+            UserEntity user = userRepo.findByUser_news(n);
+            lst.put(user.getUsername(),n.getNewsId());
+        }
+        return lst;
+    }*/
 
 
 }

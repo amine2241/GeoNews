@@ -3,6 +3,8 @@ package com.example.server.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.sql.Date;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,8 +22,8 @@ public class NewsEntity {
     @Column(name="News_image")
     private byte[] NewsImage;
     private String pic;
-    private String date;
-    private Boolean createdbyuser;
+    private Date date;
+    private String createdby;
     private Float lat;
     private Float lng;
 }
