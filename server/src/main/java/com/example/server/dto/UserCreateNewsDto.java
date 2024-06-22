@@ -1,14 +1,13 @@
 package com.example.server.dto;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.sql.Date;
-
 @Data
-public class AddNewsDto {
+
+public class UserCreateNewsDto {
     @NotEmpty(message = "title name is required!")
     private String title;
     @NotEmpty(message = "url  is required!")

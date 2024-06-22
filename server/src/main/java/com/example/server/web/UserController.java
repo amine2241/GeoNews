@@ -1,19 +1,16 @@
 package com.example.server.web;
 
 
-import com.example.server.dto.AddNewsDto;
-import com.example.server.dto.AuthResponseDTO;
+import com.example.server.dto.NewsDto;
 import com.example.server.dto.RegisterDto;
 import com.example.server.entities.NewsEntity;
 import com.example.server.entities.UserEntity;
 import com.example.server.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -62,14 +59,14 @@ public class UserController {
                 .body(listNews);
     }
     @PostMapping(path="/unpin")
-    public @ResponseBody ResponseEntity UnpinNews (@Valid @RequestBody AddNewsDto addnewsdto,@RequestHeader("token")String token){
+    public @ResponseBody ResponseEntity UnpinNews (@Valid @RequestBody NewsDto newsDto, @RequestHeader("token")String token){
         System.out.println("news unpin");
         System.out.println(token);
         String username= userService.getUsername(token);
-        userService.RemoveNewsFromList(addnewsdto.getTitle(),username);
+        userService.RemoveNewsFromList(newsDto.getTitle(),username);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(addnewsdto);
+                .body(newsDto);
     }
 
 

@@ -68,13 +68,12 @@ import { Navigate, useNavigate } from "react-router-dom";
             }).catch(function (error) {
             console.log(error);
         });
-        setshowLoad(false)
 
         //---------------------------------------------------------------------------------------------------------
 
-        /*
-        const url = 'https://api.worldnewsapi.com/search-news?source-countries=us';
-        //const url = 'https://api.worldnewsapi.com/search-news?location-filter='+props.cords+',75&latest-publish-date='+props.dateTo+'&earliest-publish-date='+props.dateFrom;
+
+        //const url = 'https://api.worldnewsapi.com/search-news?source-countries=us';
+        const url = 'https://api.worldnewsapi.com/search-news?location-filter='+props.cords+',75&latest-publish-date='+props.dateTo+'&earliest-publish-date='+props.dateFrom;
         const apiKey = 'f4b49d26f0f44957a794614a95f66a04';
         console.log(url);
 
@@ -93,7 +92,7 @@ import { Navigate, useNavigate } from "react-router-dom";
         })
             .then(data => setnewsJSON(data.news))
             .then(function(data){ setshowLoad(false)})
-            .catch(error => console.error('There was a problem with the fetch operation:', error))*/
+            .catch(error => console.error('There was a problem with the fetch operation:', error))
     }
 
     //Show initial text if the sidebar is reset-----------------------------------------------------------------------
@@ -206,7 +205,7 @@ import { Navigate, useNavigate } from "react-router-dom";
                 {!showLoad && !check && (
                     ListCreatednews.length !== 0 ? ListCreatednews.map(news => {
                     return (
-                        <div className="pt-2 bg-slight-red text-deep-red">
+                        <div className="pt-2 bg-slight-red tx bg-red bg-red text-deep-red">
                             <tr>
                                 <td className="font-semibold">{news['title']}</td>
                             </tr>
