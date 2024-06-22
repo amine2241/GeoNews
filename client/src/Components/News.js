@@ -205,7 +205,7 @@ import { Navigate, useNavigate } from "react-router-dom";
                 {!showLoad && !check && (
                     ListCreatednews.length !== 0 ? ListCreatednews.map(news => {
                     return (
-                        <div className="pt-2 bg-slight-red tx bg-red bg-red text-deep-red">
+                        <div className="pt-2 bg-red-200 tx text-red-700">
                             <tr>
                                 <td className="font-semibold">{news['title']}</td>
                             </tr>
@@ -310,7 +310,7 @@ import { Navigate, useNavigate } from "react-router-dom";
                         )}
                         <br/> <br/>
 
-                        The <span className="text-deep-red">Red News </span> are articles created by users.
+                        The <span className="text-red-700">Red News </span> are articles created by users.
 
                     </span>
                     )}

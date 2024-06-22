@@ -37,15 +37,15 @@ export default function Navbar(props) {
     },[showOptions]);
 
     function Logout(){
-      Cookies.remove('token');
-      window.location.href="http://localhost:3000/"
+        Cookies.remove('token');
+        window.location.href="http://localhost:3000/"
     }
 
     //Return------------------------------------------------------------------------------------
     return (
         <div className="navbar navbar-expand-lg navbar-dark bg-tahiti">
             <div className="navbar-start">
-            <Link to='/'><img src={geo_logo} alt="geonews logo" className='w-45 h-12 ml-2'/> </Link>
+                <Link to='/'><img src={geo_logo} alt="geonews logo" className='w-45 h-12 ml-2'/> </Link>
             </div>
             {showOptions && (
                 <form>
@@ -78,12 +78,13 @@ export default function Navbar(props) {
                         <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                             <div className="w-10 rounded-full">
                                 <img alt="Tailwind CSS Navbar component"
-                                    src={vault}/>
+                                     src={vault}/>
                             </div>
                         </div>
                         <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
                             <li className='border-b-2 border-black font-bold pl-3'>{props.username}</li>
                             <li className="text"><a onClick={()=>window.location.href="/pinnednews"}>Pinned News</a></li>
+                            <li className="text"><a >Add News</a></li>
                             <li className="text-red-600"><a onClick={Logout}>Logout</a></li>
                         </ul>
                     </div>
