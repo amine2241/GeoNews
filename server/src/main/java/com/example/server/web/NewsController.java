@@ -20,8 +20,10 @@ import com.example.server.repositories.UserRepo;
 
 import java.io.UnsupportedEncodingException;
 import java.sql.Date;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/news")
@@ -65,15 +67,32 @@ public class NewsController {
         return ResponseEntity
                 .status(HttpStatus.CREATED).body(userCreateNewsDto);
     }
+    public String decode_image (byte[] image){
+        try {
+            byte[] decodedString = Base64.getDecoder().decode(new String(image).getBytes("UTF-8"));
+            return new String(decodedString);
+        }catch (UnsupportedEncodingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "";
+        }
+
+    }
 
     @PostMapping(path="/creatednews")
     public @ResponseBody ResponseEntity GetUserCreatedNews (@Valid @RequestBody GetAddedDto addedDto){
-        System.out.println("userCreatedNews control");
+
         Float Lat = Float.parseFloat(addedDto.getLat());
         Float Lng = Float.parseFloat(addedDto.getLng());
         Date DateFrom = Date.valueOf(addedDto.getDate_from());
         Date DateTo = Date.valueOf(addedDto.getDate_to());
         List<NewsEntity> listCreatedNews = newsService.getUserCreatedNews(Lat,Lng,DateFrom,DateTo);
+        listCreatedNews = listCreatedNews.stream()
+                .peek(n -> {
+
+
+                })
+                .collect(Collectors.toList());
         //HashMap listWhoCreated = UserService.getWhoCreated(listCreatedNews);
         return ResponseEntity
                 .status(HttpStatus.CREATED)

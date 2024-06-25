@@ -63,7 +63,10 @@ import { Navigate, useNavigate } from "react-router-dom";
                 "Content-Type": "application/json",
             } )
             .then(function (response) {
+                console.log("http://localhost:9000/news/creatednews",formCreatedNewsData);
+                console.log("hello there my friend sonic1")
                 console.log(response);
+                console.log("hello there my friend sonic2")
                 setListCreatednews(response.data);
             }).catch(function (error) {
             console.log(error);
@@ -211,7 +214,7 @@ import { Navigate, useNavigate } from "react-router-dom";
                                 <td className="font-semibold">{news['title']}</td>
                             </tr>
                             <tr>
-                                <td><img src={news['pic']} alt="article pic" width="270" height="70"/></td>
+                                <td><img src={news['newsImage']} alt="article pic" width="270" height="70"/></td>
                             </tr>
                             <tr>
                                 <td className="font-semibold pt-2">publish date: {news['date']}</td>

@@ -19,8 +19,8 @@ public class NewsEntity {
     private String title;
     private String url;
     @Lob
-    @Column(name="News_image")
-    private byte[] NewsImage;
+    @Column(name = "News_image", columnDefinition = "TEXT")
+    private String newsImage; // Store as Base64 string
     private String pic;
     private Date date;
     private String createdby;

@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 
@@ -38,16 +39,17 @@ public class NewsService {
     }
     public void addUserNews(@Valid UserCreateNewsDto userCreateNewsDto, UserEntity user){
         NewsEntity news = new NewsEntity();
-            byte[] image = Base64.getEncoder().encode(userCreateNewsDto.getPic().getBytes());
+        System.out.println("elden ring");
+        System.out.println(userCreateNewsDto.getPic());
+        System.out.println(user);
+        news.setNewsImage(userCreateNewsDto.getPic());
+        System.out.println("elden ring 2");
             news.setTitle(userCreateNewsDto.getTitle());
             news.setUrl(userCreateNewsDto.getUrl());
-            news.setNewsImage(image);
             news.setDate(userCreateNewsDto.getDate());
             news.setCreatedby(user.getUsername());
             news.setLat(userCreateNewsDto.getLat());
             news.setLng(userCreateNewsDto.getLng());
-        System.out.println("new image");
-        System.out.println(news.getNewsImage());
             user.getUser_news().add(news);
             newsRepo.save(news);
         }
