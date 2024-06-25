@@ -74,6 +74,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 
         //const url = 'https://api.worldnewsapi.com/search-news?source-countries=us';
         const url = 'https://api.worldnewsapi.com/search-news?location-filter='+props.cords+',75&latest-publish-date='+props.dateTo+'&earliest-publish-date='+props.dateFrom;
+        //const url = 'https://api.worldnewsapi.com/search-news?location-filter=51.5339,-0.108,75&latest-publish-date=2024-03-30&earliest-publish-date=2024-03-25';
         const apiKey = 'f4b49d26f0f44957a794614a95f66a04';
         console.log(url);
 
@@ -92,7 +93,7 @@ import { Navigate, useNavigate } from "react-router-dom";
         })
             .then(data => setnewsJSON(data.news))
             .then(function(data){ setshowLoad(false)})
-            .catch(error => console.error('There was a problem with the fetch operation:', error))
+            .catch(error => console.error('There was a problem with the fetch operation:', error)).then(function(data){ setshowLoad(false)})
     }
 
     //Show initial text if the sidebar is reset-----------------------------------------------------------------------
@@ -193,7 +194,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 
     //Return------------------------------------------------------------------------------------
     return (
-        <div>
+        <div>{console.log(newsJSON)}
             <table className="menu p-4 w-80  bg-base-200 min-h-screen ">
                 <tr className="border-b-2 border-black">
                     <th className="pb-2"><img src={newslogo} alt="news logo" width="30" height="30"/></th>
