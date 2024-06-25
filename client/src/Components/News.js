@@ -20,6 +20,7 @@ import { Navigate, useNavigate } from "react-router-dom";
     //Initiate Variables------------------------------------------------------------------------------------
     const [newsJSON,setnewsJSON]= useState([])
     const [showLoad,setshowLoad]= useState(false)
+    const [MonthError,setMonthError]= useState(false)
     const [check,setcheck]= useState(true)
     const [listPinnedNews,setlistPinnedNews]= useState([])
      const [ListCreatednews,setListCreatednews]= useState([])
@@ -47,6 +48,7 @@ import { Navigate, useNavigate } from "react-router-dom";
     function fetchNews(){
         setshowLoad(true)
         setcheck(false)
+        setMonthError(false)
         console.log("i started fetching" );
 
         //USER CREATED NEWS:----------------------------------------------------------------------------------------------------------
@@ -70,30 +72,39 @@ import { Navigate, useNavigate } from "react-router-dom";
         });
 
         //---------------------------------------------------------------------------------------------------------
+        var OneMonthAgo = new Date();
+        OneMonthAgo.setMonth(OneMonthAgo.getMonth() - 1);
+        var EarliestDate = new Date(props.dateFrom);
+        if(OneMonthAgo>EarliestDate){
+            console.log("More than 1 month")
+            setshowLoad(false)
+            setMonthError(true)
+        }else{
 
+            //const url = 'https://api.worldnewsapi.com/search-news?source-countries=us';
+            const url = 'https://api.worldnewsapi.com/search-news?location-filter='+props.cords+',75&latest-publish-date='+props.dateTo+'&earliest-publish-date='+props.dateFrom;
+            //const url = 'https://api.worldnewsapi.com/search-news?location-filter=51.5339,-0.108,75&latest-publish-date=2024-03-30&earliest-publish-date=2024-03-25';
+            const apiKey = 'f4b49d26f0f44957a794614a95f66a04';
+            console.log(url);
 
-        //const url = 'https://api.worldnewsapi.com/search-news?source-countries=us';
-        const url = 'https://api.worldnewsapi.com/search-news?location-filter='+props.cords+',75&latest-publish-date='+props.dateTo+'&earliest-publish-date='+props.dateFrom;
-        //const url = 'https://api.worldnewsapi.com/search-news?location-filter=51.5339,-0.108,75&latest-publish-date=2024-03-30&earliest-publish-date=2024-03-25';
-        const apiKey = 'f4b49d26f0f44957a794614a95f66a04';
-        console.log(url);
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'x-api-key': apiKey
+                }
+            }).then(response => {
 
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                'x-api-key': apiKey
-            }
-        }).then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                console.log("i just finished")
+                return response.json();
+            })
+                .then(data => setnewsJSON(data.news))
+                .then(function(data){ setshowLoad(false)})
+                .catch(error => console.error('There was a problem with the fetch operation:', error)).then(function(data){ setshowLoad(false)})
+        }
 
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            console.log("i just finished")
-            return response.json();
-        })
-            .then(data => setnewsJSON(data.news))
-            .then(function(data){ setshowLoad(false)})
-            .catch(error => console.error('There was a problem with the fetch operation:', error)).then(function(data){ setshowLoad(false)})
     }
 
     //Show initial text if the sidebar is reset-----------------------------------------------------------------------
@@ -105,6 +116,7 @@ import { Navigate, useNavigate } from "react-router-dom";
             }
             if (props.showText !== props.showText.current) {
                 setcheck(true)
+                setMonthError(false)
             }
             if(props.authenticated){
                 getPinnedNews()
@@ -198,92 +210,93 @@ import { Navigate, useNavigate } from "react-router-dom";
             <table className="menu p-4 w-80  bg-base-200 min-h-screen ">
                 <tr className="border-b-2 border-black">
                     <th className="pb-2"><img src={newslogo} alt="news logo" width="30" height="30"/></th>
-                    <th className="pl-3">NEWS ARTICLES </th>
+                    <th className="pl-3">NEWS ARTICLES</th>
                     {!check && (
-                    <th className="pl-20"><img className="cursor-pointer" src={refresh} alt="refresh btn" width="30" height="30" onClick={fetchNews}/></th>
-                        )}
+                        <th className="pl-20"><img className="cursor-pointer" src={refresh} alt="refresh btn" width="30"
+                                                   height="30" onClick={fetchNews}/></th>
+                    )}
                 </tr>
                 {!showLoad && !check && (
                     ListCreatednews.length !== 0 ? ListCreatednews.map(news => {
-                    return (
-                        <div className="pt-2 bg-red-200 tx text-red-700">
-                            <tr>
-                                <td className="font-semibold">{news['title']}</td>
-                            </tr>
-                            <tr>
-                                <td><img src={news['pic']} alt="article pic" width="270" height="70"/></td>
-                            </tr>
-                            <tr>
-                                <td className="font-semibold pt-2">publish date: {news['date']}</td>
-                            </tr>
-                            <tr>
-                                <td className="font-semibold pt-2">created by: {news['createdby']}</td>
-                            </tr>
-                            <tr className="border-b-2 border-black ">
-                                <td className="pt-2 pb-2">
-                                    <a href={news['url']} target="_blank" rel="noreferrer">
-                                        <img src={url_red} alt="url btn" width="20" height="30"
-                                             className="float-left cursor-pointer"/>
-                                    </a>
-                                    <div className="float-right cursor-pointer ">
-                                        <a className="twitter pr-4"
-                                           onClick={() => props.showmod(true, news['url'], news['title'])
-                                           }
-                                        >
-                                            <img src={share_red} alt="share btn" width="20" height="20"
+                        return (
+                            <div className="pt-2 bg-red-200 tx text-red-700">
+                                <tr>
+                                    <td className="font-semibold">{news['title']}</td>
+                                </tr>
+                                <tr>
+                                    <td><img src={news['pic']} alt="article pic" width="270" height="70"/></td>
+                                </tr>
+                                <tr>
+                                    <td className="font-semibold pt-2">publish date: {news['date']}</td>
+                                </tr>
+                                <tr>
+                                    <td className="font-semibold pt-2">created by: {news['createdby']}</td>
+                                </tr>
+                                <tr className="border-b-2 border-black ">
+                                    <td className="pt-2 pb-2">
+                                        <a href={news['url']} target="_blank" rel="noreferrer">
+                                            <img src={url_red} alt="url btn" width="20" height="30"
                                                  className="float-left cursor-pointer"/>
                                         </a>
-                                        {props.authenticated && (
-                                            <input type="image" name="submit" src={CheckIfPinned(news['title'])}
-                                                   alt="pin btn" width="20" height="20"
-                                                   className="float-right cursor-pointer"
-                                                   onClick={(e) => PinNews(e, news['title'], news['url'], news['news_image'], news['date'])}/>
-                                        )}
-                                    </div>
+                                        <div className="float-right cursor-pointer ">
+                                            <a className="twitter pr-4"
+                                               onClick={() => props.showmod(true, news['url'], news['title'])
+                                               }
+                                            >
+                                                <img src={share_red} alt="share btn" width="20" height="20"
+                                                     className="float-left cursor-pointer"/>
+                                            </a>
+                                            {props.authenticated && (
+                                                <input type="image" name="submit" src={CheckIfPinned(news['title'])}
+                                                       alt="pin btn" width="20" height="20"
+                                                       className="float-right cursor-pointer"
+                                                       onClick={(e) => PinNews(e, news['title'], news['url'], news['news_image'], news['date'])}/>
+                                            )}
+                                        </div>
 
-                                </td>
-                            </tr>
-                        </div>
-                    )
+                                    </td>
+                                </tr>
+                            </div>
+                        )
                     }) : <div></div>
                 )}
 
-                {!showLoad && !check && (
+                {!showLoad && !check && !MonthError && (
                     newsJSON.length !== 0 ?
-                            newsJSON.map(news => {
-                                return (
-                                    <div className="pt-2">
-                                        <tr>
-                                            <td className="font-semibold">{news['title']}</td>
-                                        </tr>
-                                        <tr>
-                                            <td><img src={news['image']} alt="article pic" width="270" height="70"/>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td className="font-semibold pt-2">publish date: {news['publish_date']}</td>
-                                        </tr>
-                                        <tr className="border-b-2 border-black ">
-                                            <td className="pt-2 pb-2">
-                                                <a href={news['url']} target="_blank" rel="noreferrer">
-                                                    <img src={url} alt="url btn" width="20" height="30"
+                        newsJSON.map(news => {
+                            return (
+                                <div className="pt-2">
+                                    <tr>
+                                        <td className="font-semibold">{news['title']}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><img src={news['image']} alt="article pic" width="270" height="70"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className="font-semibold pt-2">publish date: {news['publish_date']}</td>
+                                    </tr>
+                                    <tr className="border-b-2 border-black ">
+                                        <td className="pt-2 pb-2">
+                                            <a href={news['url']} target="_blank" rel="noreferrer">
+                                                <img src={url} alt="url btn" width="20" height="30"
+                                                     className="float-left cursor-pointer"/>
+                                            </a>
+                                            <div className="float-right cursor-pointer ">
+                                                <a className="twitter pr-4"
+                                                   onClick={() => props.showmod(true, news['url'], news['title'])
+                                                   }
+                                                >
+                                                    <img src={share} alt="share btn" width="20" height="20"
                                                          className="float-left cursor-pointer"/>
                                                 </a>
-                                                <div className="float-right cursor-pointer ">
-                                                    <a className="twitter pr-4"
-                                                       onClick={() => props.showmod(true, news['url'], news['title'])
-                                                       }
-                                                    >
-                                                        <img src={share} alt="share btn" width="20" height="20"
-                                                             className="float-left cursor-pointer"/>
-                                                    </a>
-                                                    {props.authenticated && (
-                                                        <input type="image" name="submit"
-                                                               src={CheckIfPinned(news['title'])} alt="pin btn"
-                                                               width="20" height="20"
-                                                               className="float-right cursor-pointer"
-                                                               onClick={(e) => PinNews(e, news['title'], news['url'], news['image'], news['publish_date'])}/>
-                                                    )}
+                                                {props.authenticated && (
+                                                    <input type="image" name="submit"
+                                                           src={CheckIfPinned(news['title'])} alt="pin btn"
+                                                           width="20" height="20"
+                                                           className="float-right cursor-pointer"
+                                                           onClick={(e) => PinNews(e, news['title'], news['url'], news['image'], news['publish_date'])}/>
+                                                )}
                                             </div>
 
                                         </td>
@@ -297,6 +310,12 @@ import { Navigate, useNavigate } from "react-router-dom";
                             Try again by selecting different coordinates or times!
                         </span>
                 )}
+                {MonthError && (
+                        <span className=" text-xs pt-44 text-gray-500 text-center">
+                            The earliest date the API can search back is 1 month ago!<br/><br/>
+                            Try again by selecting different dates!
+                        </span>
+                )}
 
                 {check && !showLoad && (
                     <span className=" text-xs pt-32 text-gray-500 text-center">
@@ -306,7 +325,9 @@ import { Navigate, useNavigate } from "react-router-dom";
 
                         {props.authenticated && (<div><br/>
                                 You can also add your own news related to this location!<br/> <br/>
-                                <button className="btn bg-black text-white btn-block max-w-[110px]" onClick={GoToAdd}>Add news</button>
+                                <button className="btn bg-black text-white btn-block max-w-[110px]"
+                                        onClick={GoToAdd}>Add news
+                                </button>
                             </div>
                         )}
                         <br/> <br/>
@@ -314,7 +335,7 @@ import { Navigate, useNavigate } from "react-router-dom";
                         The <span className="text-red-700">Red News </span> are articles created by users.
 
                     </span>
-                    )}
+                )}
 
                 {showLoad && (
                     <span className="loading load loading-spinner loading-lg"></span>

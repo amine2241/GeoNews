@@ -11,10 +11,7 @@ export default function Navbar(props) {
 
     //Dates Configuration-------------------------------------------------------------------------
     var curr = new Date();
-    var MonthAgo = new Date();
-    MonthAgo.setMonth(MonthAgo.getMonth() - 1);
     var today = curr.toISOString().substring(0,10);
-    var OneMonthAgo = MonthAgo.toISOString().substring(0,10);
 
     const [valueFrom, setvalueFrom] = useState(moment().format('YYYY-MM-DD'));
     const [valueTo, setvalueTo] = useState(moment().format('YYYY-MM-DD'));
@@ -59,7 +56,7 @@ export default function Navbar(props) {
                                 <span className="float-left pr-5">
                                     From:<input id="From" type="date" className="datepicker pl-2" value={valueFrom}
                                                 max={valueTo}
-                                                min={OneMonthAgo} onChange={(e) => onChangeDateFrom(e)}/>
+                                                min="2022-08-15" onChange={(e) => onChangeDateFrom(e)}/>
                                 </span>
                                     <span className="float-left pt-1">
                                     <img src={arrow} alt="arrow" width="20" height="20"/>
