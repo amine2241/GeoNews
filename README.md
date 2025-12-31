@@ -8,7 +8,8 @@ The application integrates an interactive map where users can select locations t
 
 ## Technologies Used
 
-* HTML, CSS, JavaScript
+* HTML, CSS, JavaScript, Java
+* React and Spring boot as frameworks
 * Leaflet.js for the interactive world map
 * World News API for news data retrieval
 
