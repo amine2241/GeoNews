@@ -21,10 +21,16 @@ The application integrates an interactive map where users can select locations t
 
 ## Screenshots
 
-Image 1: <img width="752" height="345" alt="image" src="https://github.com/user-attachments/assets/d924bc72-bf34-4c4f-8f62-03c23ce35467" />
+Image 1: 
 
-Image 2: <img width="763" height="341" alt="image" src="https://github.com/user-attachments/assets/8b40440d-6314-4fa9-8791-4e8838ca1cd5" />
+<img width="752" height="345" alt="image" src="https://github.com/user-attachments/assets/d924bc72-bf34-4c4f-8f62-03c23ce35467" />
 
-Image 3 : <img width="752" height="344" alt="image" src="https://github.com/user-attachments/assets/4367c1ab-f8a7-417d-91a1-3afa1ad58cd8" />
+Image 2: 
+
+<img width="763" height="341" alt="image" src="https://github.com/user-attachments/assets/8b40440d-6314-4fa9-8791-4e8838ca1cd5" />
+
+Image 3 : 
+
+<img width="752" height="344" alt="image" src="https://github.com/user-attachments/assets/4367c1ab-f8a7-417d-91a1-3afa1ad58cd8" />
 
 
